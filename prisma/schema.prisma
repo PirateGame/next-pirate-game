@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Game {
+  name  String @unique
+  sizeX Int
+  sizeY Int
+  quickPlay Boolean
+  turnTime Int
+  turnNumber Int
+  chosenTiles Json
+  scoreHistory Json
+  playerLimit Int
+  randomiseOnly Boolean
+  players player[]
+}
+
+model player {
+  name String
+  gameName String
+  money Int
+  bank Int
+  shield Int
+  mirror Int
+  ship Int
+  team Int
+  id Int @default(autoincrement()) @unique
+  Game Game @relation(fields: [gameName], references: [name])
+}

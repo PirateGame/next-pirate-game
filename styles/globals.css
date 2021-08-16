@@ -6,10 +6,13 @@
   font-family: PirateFont;
   src: url("/fonts/piratefont.ttf");
 }
-
+html {
+  overflow: hidden;
+}
 .body {
   font-family: Arial;
   height: 100%;
+  overflow: auto;
 }
 
 ::-webkit-scrollbar {
