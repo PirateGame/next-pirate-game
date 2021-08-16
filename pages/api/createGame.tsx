@@ -27,6 +27,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
 
         }
     })
+    return result
     
     //this is where we need to start the kubernetes pod
 }
@@ -38,11 +39,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         var gridSizex = req.body.gridSizex
         var gridSizey = req.body.gridSizey
 
-        if (findGame(gameName) !== null) {
+        if (await findGame(gameName) !== null) {
             //game with name exists
             res.status(500).json({error: true, message: "game with same name already exists"})
+            return
         } else {
-            createGame(gameName, gridSizex, gridSizey)
+            var game = await createGame(gameName, gridSizex, gridSizey)
+            if (game == null){
+                //something failed
+                res.status(500).json({error: true, message: "game creation failed"})
+                return
+            } else {
+                //game creation worked
+                res.status(200).json({error: false, game: game})
+                return
+            }
         }
     }
 }

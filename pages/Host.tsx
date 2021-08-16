@@ -4,28 +4,36 @@ import Layout from '../components/Layout'
 import React, { useState } from 'react';
 import cookie from 'js-cookie'
 import router from 'next/router';
+import { toast } from 'react-toastify';
 
 
 export default function Host(){
     const [gameName, setGameName] = useState("")
-    const [gridSizex, setX] = useState("7")
-    const [gridSizey, setY] = useState("7")
+    var [Sizex, setX] = useState("7")
+    var [Sizey, setY] = useState("7")
     const [playerName, setPlayerName] = useState("")
 
     const createGame = async(e: React.SyntheticEvent) => {
         e.preventDefault()
+        var gridSizex = parseInt(Sizex)
+        var gridSizey = parseInt(Sizey)
         const body = {gameName, playerName, gridSizex, gridSizey}
-        const response = await fetch('/api/users', {
+        await fetch('/api/createGame', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(body),
         })
         .then((r) => r.json())
         .then((data) => {
-            if (data && data.error) {
+            if (data && data.error == true) {
                 console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
             }
-            else if (data && data.success) {
+            else if (data && data.error == false) {
+                //game has been created
+                //now we can join it.
                 cookie.set('gameName', gameName, {expires: 1})
                 cookie.set('playerName', playerName, {expires: 1})
                 router.push('/HostPanel')
@@ -43,7 +51,7 @@ export default function Host(){
                     <h2 className="title1">Host</h2>
                     <form action="play" className="h-4/5">
                         <h3 className="float-left">Grid Size</h3>
-                        <h3 className="float-left">{ gridSizex } x { gridSizey }</h3>
+                        <h3 className="float-left">{ Sizex } x { Sizey }</h3>
                         <div className="input-container">
                             <input
                                 type="range"
@@ -77,7 +85,7 @@ export default function Host(){
                                 onChange={e => setPlayerName(e.target.value)}
                             />
                         </div>
-                        <div className=" h-1/6 p-5 m-auto text-center bg-opacity-25">
+                        <div className="h-1/6 p-5 m-auto text-center bg-opacity-25">
                             <input
                             type="button"
                             value="Create"

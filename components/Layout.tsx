@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ToastContainer, toast } from 'react-toastify'
 
 export const siteTitle = 'The Pirate Game'
 
@@ -29,6 +30,7 @@ export default function Layout({
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         </Head>
+        <ToastContainer />
         <main>{children}</main>
     </div>
     )
