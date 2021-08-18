@@ -15,7 +15,7 @@ model Game {
   sizeX Int
   sizeY Int
   quickPlay Boolean
-  turnTime Int
+  decisionTime Int
   turnNumber Int
   chosenTiles Json
   scoreHistory Json

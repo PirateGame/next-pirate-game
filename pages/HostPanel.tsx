@@ -8,7 +8,7 @@ import cookie from 'js-cookie'
 
 
 export default function HostPanel(){
-    const [DecisionTime, setDecisionTime] = useState("30")
+    const [decisionTime, setDecisionTime] = useState("30")
     const [randomiseOnly, setRandomiseOnly] = useState("")
     const [clientList, setClientList] = useState(["one"])
     const [playerLimit, setPlayerLimit] = useState("20")
@@ -19,7 +19,7 @@ export default function HostPanel(){
     }
 
     const saveSettings = async () => {
-        const body = {gameName, DecisionTime, randomiseOnly, playerLimit}
+        const body = {gameName, decisionTime, randomiseOnly, playerLimit}
         await fetch('/api/updateGame', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -45,7 +45,7 @@ export default function HostPanel(){
     }
 
     const kickPlayer = async (playertoKick: string) =>{
-        toast("not implemented yet.", {
+        toast("kicking players not implemented yet.", {
             position: toast.POSITION.BOTTOM_RIGHT
         });
     }
@@ -80,14 +80,14 @@ export default function HostPanel(){
                             <h1 className="title2 flex-child">Host Panel</h1>
                             <h3 className=" title3 flex-child">Game Name: {gameName}</h3>
                             <div className="flex-child">
-                                <h3 className="title3 float-left">Decision Time = { DecisionTime }</h3>
+                                <h3 className="title3 float-left">Decision Time = {decisionTime}</h3>
                                 <div className="input-container">
                                     <input
                                         type="range"
                                         min="10"
                                         max="60"
                                         step="5"
-                                        value={DecisionTime}
+                                        value={decisionTime}
                                         onChange={e => setDecisionTime(e.target.value)}
                                         className="slider"
                                     />
