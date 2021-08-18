@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import router from 'next/router';
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
+import { io } from "socket.io-client";
 
 
 export default function HostPanel(){
@@ -17,6 +18,11 @@ export default function HostPanel(){
     const startGame = () => { 
         router.push('/PickTeam')
     }
+    const socket = io("http://localhost:1001")
+
+    socket.emit("test", (response) => {
+        console.log(response.status); // ok
+    });
 
     const saveSettings = async () => {
         const body = {gameName, decisionTime, randomiseOnly, playerLimit}
