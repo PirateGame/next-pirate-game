@@ -49,28 +49,13 @@ export default function HostPanel(){
             position: toast.POSITION.BOTTOM_RIGHT
         });
     }
-    /**
+    
+    const addAI = async () =>{
+        toast("adding AI players not implemented yet.", {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+    }
 
-    async addAI(){          
-        if (this.$socket.connected){
-            this.$socket.emit('addAI',
-                {
-                    gameName: this.gameName,
-                    authCode: this.authCode,
-                    playerName: this.playerName,
-                }
-            );
-            await this.$socket.on('addAIResponse', (data) => {
-                if (data["error"] != false){
-                    alert(data["error"]);
-                    return;
-                }
-                else{
-                    console.log("added AI")
-                }
-            });
-        }
-    }*/
     return (
         <Layout>
             <div className="bg-generic">
@@ -144,7 +129,7 @@ export default function HostPanel(){
                     <div className="config-box flex-child m-4 h-5/6">
                         <h1 className="title2">Players</h1>
                         <ul>
-                            {clientList.map(client=><li className="title3 cursor-pointer" onClick={() => kickPlayer(client)}>{client}</li>)}
+                            {clientList.map(client=><li className="title3 cursor-pointer" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
                         </ul>
                         
                         
