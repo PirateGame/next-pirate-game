@@ -1,7 +1,7 @@
 import Router from 'next/router'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import router from 'next/router';
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
@@ -9,6 +9,10 @@ import { io } from "socket.io-client";
 
 
 export default function HostPanel(){
+    useEffect(() => {
+        const socket = io("http://localhost:1001")  
+    })
+    
     const [decisionTime, setDecisionTime] = useState("30")
     const [randomiseOnly, setRandomiseOnly] = useState("")
     const [clientList, setClientList] = useState(["one"])
@@ -18,11 +22,6 @@ export default function HostPanel(){
     const startGame = () => { 
         router.push('/PickTeam')
     }
-    const socket = io("http://localhost:1001")
-
-    socket.emit("test", (response) => {
-        console.log(response.status); // ok
-    });
 
     const saveSettings = async () => {
         const body = {gameName, decisionTime, randomiseOnly, playerLimit}
@@ -57,8 +56,10 @@ export default function HostPanel(){
     }
     
     const addAI = async () =>{
-        toast("adding AI players not implemented yet.", {
-            position: toast.POSITION.BOTTOM_RIGHT
+        socket.emit("addAI", (response: any) => {
+            toast(response.status, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
         });
     }
 
@@ -121,7 +122,7 @@ export default function HostPanel(){
                                     type="button"
                                     value="Add AI Player"
                                     className="big-button bg-index-1 text-white no-underline opacity-60 m-3 justify-center cursor-pointer"
-                                    //onClick={addAI}
+                                    onClick={addAI}
                                 />
                                 <input
                                     type="button"

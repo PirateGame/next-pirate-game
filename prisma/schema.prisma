@@ -33,6 +33,7 @@ model player {
   mirror Int
   ship Int
   team Int
+  token String
   id Int @default(autoincrement()) @unique
   Game Game @relation(fields: [gameName], references: [name])
 }
