@@ -22,9 +22,6 @@ export default function HostPanel(){
                 position: toast.POSITION.BOTTOM_RIGHT
             });
         }
-        socket.emit("Register", playerName, gameName, (response: any) => {
-            cookie.set('token', response.token)
-        });
     }, [setSocket])
     
     const [decisionTime, setDecisionTime] = useState("30")

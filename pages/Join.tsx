@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Layout from '../components/Layout'
 import cookie from 'js-cookie'
 import router from 'next/router';
+import { io } from "socket.io-client";
 import { toast } from 'react-toastify';
 
 
@@ -28,8 +29,22 @@ export default function Join(){
                 });
             }
             else if (data && data.error == false) {
-                //game has been created
-                //now we can join it.
+                toast("connecting to server", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                var socket = io("http://localhost:1001")
+
+                if (socket == null) {
+                    toast("not connected to server", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                toast("Registering with server", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                socket.emit("Register", playerName, gameName, (response: any) => {
+                    cookie.set('token', response.token)
+                });
                 cookie.set('gameName', gameName, {expires: 1})
                 cookie.set('playerName', playerName, {expires: 1})
                 router.push('/PickTeam')
