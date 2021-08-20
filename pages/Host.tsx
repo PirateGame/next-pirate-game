@@ -24,7 +24,7 @@ export default function Host(){
             body: JSON.stringify(body),
         })
         .then((r) => r.json())
-        .then((data) => {
+        .then(async (data) => {
             if (data && data.error == true) {
                 console.log(data.error)
                 toast(data.message, {
@@ -32,11 +32,28 @@ export default function Host(){
                 });
             }
             else if (data && data.error == false) {
-                //game has been created
-                //now we can join it.
-                cookie.set('gameName', gameName, {expires: 1})
-                cookie.set('playerName', playerName, {expires: 1})
-                router.push('/HostPanel')
+                const body = {gameName, playerName}
+                await fetch('/api/createPlayer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify(body),
+                })
+                .then((r) => r.json())
+                .then((data) => {
+                    if (data && data.error == true) {
+                        console.log(data.message)
+                        toast(data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        });
+                    }
+                    else if (data && data.error == false) {
+                        //game has been created
+                        //now we can join it.
+                        cookie.set('gameName', gameName, {expires: 1})
+                        cookie.set('playerName', playerName, {expires: 1})
+                        router.push('/HostPanel')
+                    }
+                })
             }
             else {
                 console.log("error in Host.tsx createGame() failed")
@@ -89,7 +106,7 @@ export default function Host(){
                             <input
                             type="button"
                             value="Create"
-                            className="big-button bg-index-2 bg-opacity-25"
+                            className="big-button bg-index-2 bg-opacity-25 cursor-pointer"
                             onClick={createGame}
                             />
                         </div>

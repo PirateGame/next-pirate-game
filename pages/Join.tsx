@@ -69,7 +69,7 @@ export default function Join(){
                             <input
                                 type="button"
                                 value="Join"
-                                className="big-button bg-index-2 bg-opacity-25"
+                                className="big-button bg-index-2 bg-opacity-25 cursor-pointer"
                                 onClick={joinGame}
                             />
                         </div>

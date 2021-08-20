@@ -1,7 +1,7 @@
 import Router from 'next/router'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, SetStateAction } from 'react';
 import router from 'next/router';
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
@@ -9,15 +9,28 @@ import { io } from "socket.io-client";
 
 
 export default function HostPanel(){
+    const [socket, setSocket] = useState(null)
+    const gameName = cookie.get("gameName")
+    const playerName = cookie.get("playerName")
+
     useEffect(() => {
-        const socket = io("http://localhost:1001")  
-    })
+        var socket = io("http://localhost:1001")
+        setSocket(socket) //this does work
+
+        if (socket == null) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+        }
+        socket.emit("Register", playerName, gameName, (response: any) => {
+            cookie.set('token', response.token)
+        });
+    }, [setSocket])
     
     const [decisionTime, setDecisionTime] = useState("30")
     const [randomiseOnly, setRandomiseOnly] = useState("")
-    const [clientList, setClientList] = useState(["one"])
+    const [clientList, setClientList] = useState([])
     const [playerLimit, setPlayerLimit] = useState("20")
-    const gameName = cookie.get("gameName")
 
     const startGame = () => { 
         router.push('/PickTeam')

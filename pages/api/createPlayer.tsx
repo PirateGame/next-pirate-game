@@ -21,6 +21,7 @@ async function joinGame(gameName: string, playerName: string) {
             mirror: 0,
             ship: 0,
             team: 0,
+            token: "",
             Game: {
                 connect: {name: gameName}
             }
