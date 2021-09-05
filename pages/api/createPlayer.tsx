@@ -29,8 +29,8 @@ async function joinGame(gameName: string, playerName: string) {
             bank: 0,
             shield: 0,
             mirror: 0,
-            ship: 0,
-            team: 0,
+            ship: -1,
+            captain: -1,
             token: "",
             Game: {
                 connect: {name: gameName}
@@ -54,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json({error: true, message: "game not found"})
             return
         }
-        if (finduniqueName != null) {
+        if ( !finduniqueName(gameName, playerName)) {
             res.status(500).json({error: true, message: "player with that name already connected"})
             return
         }

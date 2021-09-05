@@ -1,8 +1,7 @@
 import Router from 'next/router'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import React, { useState, useEffect, SetStateAction } from 'react';
-import router from 'next/router';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
 import { io } from "socket.io-client";
@@ -30,7 +29,7 @@ export default function HostPanel(){
     const [playerLimit, setPlayerLimit] = useState("20")
 
     const startGame = () => { 
-        router.push('/PickTeam')
+        Router.push('/PickTeam')
     }
 
     const saveSettings = async () => {
@@ -60,13 +59,15 @@ export default function HostPanel(){
     }
 
     const kickPlayer = async (playertoKick: string) =>{
+        var token = cookie.get("token")
         toast("kicking players not implemented yet.", {
             position: toast.POSITION.BOTTOM_RIGHT
         });
     }
     
     const addAI = async () =>{
-        socket.emit("addAI", (response: any) => {
+        const token = cookie.get("token")
+        socket.emit("addAI", (token: string, response: any) => {
             toast(response.status, {
                 position: toast.POSITION.BOTTOM_RIGHT
             });

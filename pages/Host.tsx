@@ -42,7 +42,6 @@ export default function Host(){
                 .then((r) => r.json())
                 .then((data) => {
                     if (data && data.error == true) {
-                        console.log(data.message)
                         toast(data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT
                         });

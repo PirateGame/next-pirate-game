@@ -14,16 +14,16 @@ export default function Index(){
                 <div className="mainMenu">
                     <ul id="menuUL">
                         <li className="bg-index-0 bg-opacity-25">
-                            <Link href='Join'>Quick Play</Link>
+                            <Link href='/QuickPlay'>Quick Play</Link>
                         </li>
                         <li className="bg-index-1 bg-opacity-25">
-                            <Link href='Join'>Join Game</Link>
+                            <Link href='/Join'>Join Game</Link>
                         </li>
                         <li className="bg-index-2 bg-opacity-25">
-                            <Link href='Host'>Host Game</Link>
+                            <Link href='/Host'>Host Game</Link>
                         </li>
                         <li className="bg-index-3 bg-opacity-25">
-                            <Link href='Rules'>Rules</Link>
+                            <Link href='/Rules'>Rules</Link>
                         </li>
                         <li id="inputLI">
                         </li>
