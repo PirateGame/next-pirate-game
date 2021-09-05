@@ -21,7 +21,7 @@ async function finduniqueName(gameName: string, playerName: string){
     return result
 }
 
-async function joinGame(gameName: string, playerName: string) {
+async function joinGame(gameName: string, playerName: string, host: boolean) {
     var result = await prisma.player.create({
         data: {
             name: playerName,
@@ -31,6 +31,7 @@ async function joinGame(gameName: string, playerName: string) {
             mirror: 0,
             ship: -1,
             captain: -1,
+            host: host,
             token: "",
             Game: {
                 connect: {name: gameName}
@@ -58,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json({error: true, message: "player with that name already connected"})
             return
         }
-        var joined = await joinGame(gameName, playerName)
+        var joined = await joinGame(gameName, playerName, host)
         if (joined == null){
             //something failed
             res.status(500).json({error: true, message: "failed to join game"})

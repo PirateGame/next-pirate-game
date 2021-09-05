@@ -33,7 +33,7 @@ export default function Host(){
                 });
             }
             else if (data && data.error == false) {
-                const body = {gameName, playerName}
+                const body = {gameName, playerName, host: true}
                 await fetch('/api/createPlayer', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},

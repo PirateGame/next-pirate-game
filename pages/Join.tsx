@@ -14,7 +14,7 @@ export default function Join(){
 
     const joinGame = async(e: React.SyntheticEvent) => {
         e.preventDefault()
-        const body = {gameName, playerName}
+        const body = {gameName, playerName, host: false}
         await fetch('/api/createPlayer', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},

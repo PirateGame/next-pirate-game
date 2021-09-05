@@ -11,29 +11,30 @@ generator client {
 }
 
 model Game {
-  name  String @unique
-  sizeX Int
-  sizeY Int
-  quickPlay Boolean
-  decisionTime Int
-  turnNumber Int
-  chosenTiles Json
-  scoreHistory Json
-  playerLimit Int
+  name          String   @unique
+  sizeX         Int
+  sizeY         Int
+  quickPlay     Boolean
+  decisionTime  Int
+  turnNumber    Int
+  chosenTiles   Json
+  scoreHistory  Json
+  playerLimit   Int
   randomiseOnly Boolean
-  players player[]
+  players       player[]
 }
 
 model player {
-  name String
+  name     String
   gameName String
-  money Int
-  bank Int
-  shield Int
-  mirror Int
-  ship Int
-  captain Int
-  token String
-  id Int @default(autoincrement()) @unique
-  Game Game @relation(fields: [gameName], references: [name])
+  money    Int
+  bank     Int
+  shield   Int
+  mirror   Int
+  ship     Int
+  captain  Int
+  host     Boolean
+  token    String
+  id       Int     @unique @default(autoincrement())
+  Game     Game    @relation(fields: [gameName], references: [name])
 }
