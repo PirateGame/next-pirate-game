@@ -11,13 +11,17 @@ async function findGame(gameName: string){
     return result
 }
 
-async function finduniqueName(gameName: string, playerName: string){
+async function findUniqueName(gameName: string, playerName: string){
     var result = await prisma.player.findFirst({
         where: {
             gameName: gameName,
             name: playerName
+        },
+        select: {
+            name: true
         }
     })
+    console.log(result)
     return result
 }
 
@@ -56,7 +60,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json({error: true, message: "game not found"})
             return
         }
-        if ( !finduniqueName(gameName, playerName)) {
+        if (  await findUniqueName(gameName, playerName) != null) {
             res.status(500).json({error: true, message: "player with that name already connected"})
             return
         }
