@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 
 export default function HostPanel(){
@@ -14,6 +14,7 @@ export default function HostPanel(){
     const [playerLimit, setPlayerLimit] = useState("20")
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
+    const token = cookie.get("token")
     let connection: any = null
 
     useEffect(() => {
@@ -29,6 +30,18 @@ export default function HostPanel(){
             return
         }
         getPlayers()
+
+        connection.emit("join", playerName, gameName, token, (response: any) => {
+            if (response.status == false) {
+                toast("couldn't join server room.", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } 
+        })
+
+        connection.on("playerListUpdated", () => {
+            getPlayers()
+        })
     }, [])
     
 
@@ -80,7 +93,6 @@ export default function HostPanel(){
     }
     
     const addAI = async () =>{
-        const token = cookie.get("token")
         connection.emit("addAI", token, (response: any) => {
             console.log(response)
             toast(response.status, {

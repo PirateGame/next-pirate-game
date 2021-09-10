@@ -63,8 +63,8 @@ export default function Host(){
                         socket.emit("Register", playerName, gameName, (response: any) => {
                             cookie.set('token', response.token)
                         });
-                        cookie.set('gameName', gameName, {expires: 1})
-                        cookie.set('playerName', playerName, {expires: 1})
+                        cookie.set('gameName', gameName)
+                        cookie.set('playerName', playerName)
                         router.push('/HostPanel')
                     }
                 })
