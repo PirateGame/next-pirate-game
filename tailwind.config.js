@@ -15,6 +15,10 @@ module.exports = {
       black: '#000000',
       white: '#FFFFFF'
     },
+    minHeight: {
+      '5/6': '83.33%',
+
+     },
     extend: {},
   },
   variants: {

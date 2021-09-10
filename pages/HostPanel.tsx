@@ -171,7 +171,7 @@ export default function HostPanel(){
                             </div>
                         </div>
                     </div>
-                    <div className="config-box flex-child m-4 h-5/6">
+                    <div className="config-box flex-child m-4 min-h-5/6">
                         <h1 className="title2">Players</h1>
                         <ul>
                             {clientList.map(client=><li className="title3 cursor-pointer hover:strikeout" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
