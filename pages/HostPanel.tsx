@@ -8,26 +8,29 @@ import { io } from "socket.io-client";
 
 
 export default function HostPanel(){
-    const [socket, setSocket] = useState(null)
-    const gameName = cookie.get("gameName")
-    const playerName = cookie.get("playerName")
-
-    useEffect(() => {
-        var _socket = io("http://localhost:1001")
-        if (!_socket) return
-        setSocket(_socket) //this does work
-
-        if (socket == null) {
-            toast("not connected to server", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-        }
-    }, [setSocket])
-    
     const [decisionTime, setDecisionTime] = useState("30")
     const [randomiseOnly, setRandomiseOnly] = useState("")
     const [clientList, setClientList] = useState([])
     const [playerLimit, setPlayerLimit] = useState("20")
+    const gameName = cookie.get("gameName")
+    const playerName = cookie.get("playerName")
+    let connection: any = null
+
+    useEffect(() => {
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        console.log(_socket)
+        connection = _socket //this does work
+
+        if (!connection) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+        getPlayers()
+    }, [])
+    
 
     const startGame = () => { 
         Router.push('/PickTeam')
@@ -59,6 +62,16 @@ export default function HostPanel(){
         })
     }
 
+    const getPlayers = async () => {
+        connection.emit("getPlayerList", gameName, (response: any) => {
+            console.log(response)
+
+            setClientList(
+                response.playerList.map(player => player.name)
+            )
+        });
+    }
+
     const kickPlayer = async (playertoKick: string) =>{
         var token = cookie.get("token")
         toast("kicking players not implemented yet.", {
@@ -68,7 +81,8 @@ export default function HostPanel(){
     
     const addAI = async () =>{
         const token = cookie.get("token")
-        socket.emit("addAI", (token: string, response: any) => {
+        connection.emit("addAI", token, (response: any) => {
+            console.log(response)
             toast(response.status, {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
@@ -138,7 +152,7 @@ export default function HostPanel(){
                                 />
                                 <input
                                     type="button"
-                                    value="Start"
+                                    value="Next"
                                     className="big-button bg-index-2 text-white no-underline opacity-60 m-3 justify-center cursor-pointer"
                                     onClick={startGame}
                                 />
@@ -148,7 +162,7 @@ export default function HostPanel(){
                     <div className="config-box flex-child m-4 h-5/6">
                         <h1 className="title2">Players</h1>
                         <ul>
-                            {clientList.map(client=><li className="title3 cursor-pointer" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
+                            {clientList.map(client=><li className="title3 cursor-pointer hover:strikeout" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
                         </ul>
                         
                         

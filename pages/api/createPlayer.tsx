@@ -48,6 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         var gameName = req.body.gameName
         var playerName = req.body.playerName
+        var host = req.body.host
 
         var game = await findGame(gameName)
         if (game === null) {
