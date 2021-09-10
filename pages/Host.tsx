@@ -81,8 +81,8 @@ export default function Host(){
                     <br />
                     <h2 className="title1">Host</h2>
                     <form action="play" className="h-4/5">
-                        <h3 className="float-left">Grid Size</h3>
-                        <h3 className="float-left">{ Sizex } x { Sizey }</h3>
+                        <h3 className="float-left title3">Grid Size</h3>
+                        <h3 className="float-left title3">{ Sizex } x { Sizey }</h3>
                         <div className="input-container">
                             <input
                                 type="range"
@@ -99,7 +99,7 @@ export default function Host(){
                                 className="slider"
                             />
                         </div>
-                        <h3 className="float-left">Game Name</h3>
+                        <h3 className="float-left title3">Game Name</h3>
                         <div className="input-container">
                             <input type="text"
                                 className="text-box"
@@ -107,7 +107,7 @@ export default function Host(){
                                 onChange={e => setGameName(e.target.value)}
                             />
                         </div>
-                        <h3 className="float-left">Player Name</h3>
+                        <h3 className="float-left title3">Player Name</h3>
                         <div className="input-container">
                             <input
                                 type="text"

@@ -13,8 +13,9 @@ export default function HostPanel(){
     const playerName = cookie.get("playerName")
 
     useEffect(() => {
-        var socket = io("http://localhost:1001")
-        setSocket(socket) //this does work
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        setSocket(_socket) //this does work
 
         if (socket == null) {
             toast("not connected to server", {

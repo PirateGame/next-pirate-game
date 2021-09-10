@@ -60,17 +60,11 @@ export default function Join(){
             <div className="bg-generic">
                 <div className="config-box config-box-center">
                     <br/>
-                    <h2 className="title1">Join</h2>
+                    <h2 className="title1">Quick Play</h2>
+
+                    <h3 className="title3"> list of games that can be joined </h3>
                     <form className=" h-4/5">
-                        <h3 className="float-left title3">Game Name</h3>
-                        <div className="input-container">
-                            <input
-                                type="text"
-                                className="text-box"
-                                placeholder="Game Name..."
-                                onChange={e => setGameName(e.target.value)}
-                            />
-                        </div>
+                        
                         <h3 className="float-left title3">Player Name</h3>
                         <div className="input-container">
                             <input
