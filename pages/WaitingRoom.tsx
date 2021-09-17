@@ -12,9 +12,9 @@ export default function WaitingRoom(){
     const [host, setHost] = useState(false)
     const [gameState, setGameState] = useState(false)
 
-    const isHost = async () => { 
+    const isHost = async () => {
         const body = {gameName, playerName}
-        await fetch('/api/readGame', {
+        await fetch('/api/readPlayer', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(body),
@@ -28,12 +28,13 @@ export default function WaitingRoom(){
                 });
             }
             else if (data && data.player) {
-                if (data.player.host) {
+                if (data.player[0].host) {
                     setHost(true)
                 } else { return false}
             }
             else {
                 console.log("error in WaitingRoom.tsx isHost() failed")
+                console.log(data)
             }
         })
     }
@@ -42,8 +43,9 @@ export default function WaitingRoom(){
         //tell socket to start game
     }
 
-
-    isHost()
+    useEffect(() => {
+        isHost()
+    }, [])
     //get game state
     //listen to state updates
     //if state is ready update state
@@ -53,41 +55,44 @@ export default function WaitingRoom(){
     return (
         <Layout>
             <div className="bg-generic">
-                <h1 className="title">You're In!</h1>
-                <h2>Please wait while the host starts the game.</h2>
-                <h2>Here is a guide on how to play the game.</h2>
-                <h2> game state: {gameState} </h2>
+                <h1 className="title1">You're In!</h1>
+                <h2 className="title2">Please wait while the host starts the game.</h2>
+                <h2 className="title2"> game state: {gameState.toString()} </h2>
+                <h2 className="title2"> Host: {host.toString()} </h2>
 
                 <div className="flex-vertical-box h-3/5">
-                    <div className="flex-child h-1/4">
+                    <div className="flex-child h-1/4 text-center">
                         <input
                             type="button"
                             value="Rules"
                             className="big-button bg-genericButton text-white no-underline w-1/2 m-2"
+                            onClick={()=>Router.push("/Rules")}
                         />
                     </div>
-                    isHost ? (
+                    {host ? (
                         <div className="flex-child h-1/4">
-                            gameState ? (
-                            <div className="h-full">
+                            {gameState ? (
+                            <div className="h-full text-center">
                                 <input
                                     type="button"
                                     value="Play"
-                                    className="big-button bg-red text-white no-underline w-1/2 m-2"
+                                    className="big-button bg-green text-white w-1/2 no-underline m-2"
+                                    onClick={startGame}
                                 />
                                 </div>
                                 ) : (
-                                <div v-show="isReady" className="h-full">
+                                <div className="h-full text-center">
                                     <input
                                         type="button"
                                         value="Play"
-                                        className="big-button bg-green text-white w-1/2 no-underline m-2"
-                                        onClick={startGame}
+                                        className="big-button bg-red text-white no-underline w-1/2 m-2"
                                     />
                                 </div>
-                            )
+                            )}
                         </div>
-                    )
+                    ):(
+                        <div></div>
+                    )}
                 </div>
             </div>
         </Layout>

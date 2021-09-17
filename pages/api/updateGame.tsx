@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         var gameName = req.body.gameName
         var decisionTime = parseInt(req.body.decisionTime)
-        var randomiseOnly = (req.body.randomiseOnly === 'true')
+        var randomiseOnly = req.body.randomiseOnly
         var playerLimit = parseInt(req.body.playerLimit)
         var result = updateGame(gameName, decisionTime, randomiseOnly, playerLimit)
 

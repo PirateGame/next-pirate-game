@@ -11,10 +11,12 @@ export default function PickTeam(){
     const playerName = cookie.get("playerName")
     const [captain, setCaptain] = useState(-1)
     const [ship, setShip] = useState(-1)
+    const [randomiseOnly, setRandomiseOnly] = useState(false)
 
     useEffect(()=>{
         if (captain == -1) return
         console.log(captain)
+        isRandomiseOnly()
         showShip()
     },[captain])
 
@@ -51,8 +53,8 @@ export default function PickTeam(){
             }
             else if (data && data.game) {
                 if (data.game.randomiseOnly) {
-                    return true
-                } else { return false}
+                    setRandomiseOnly(true)
+                } else { setRandomiseOnly(false)}
             }
             else {
                 console.log("error in PickTeam.tsx isRandomiseOnly() failed")
@@ -79,7 +81,7 @@ export default function PickTeam(){
                 });
             }
             else if (data && data.update) {
-                if (isRandomiseOnly()) {
+                if (randomiseOnly) {
                     Router.push("/WaitingRoom")
                 } else {
                     Router.push ("/DesignBoard")

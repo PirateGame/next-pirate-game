@@ -9,7 +9,7 @@ import { io, Socket } from "socket.io-client";
 
 export default function HostPanel(){
     const [decisionTime, setDecisionTime] = useState("30")
-    const [randomiseOnly, setRandomiseOnly] = useState("")
+    const [randomiseOnly, setRandomiseOnly] = useState(false)
     const [clientList, setClientList] = useState([])
     const [playerLimit, setPlayerLimit] = useState("20")
     const gameName = cookie.get("gameName")
@@ -110,7 +110,7 @@ export default function HostPanel(){
                             <h1 className="title2 flex-child">Host Panel</h1>
                             <h3 className=" title3 flex-child">Game Name: {gameName}</h3>
                             <div className="flex-child">
-                                <h3 className="title3 float-left">Decision Time = {decisionTime}</h3>
+                                <h3 className="title3 float-left">Decision Time: {decisionTime}</h3>
                                 <div className="input-container">
                                     <input
                                         type="range"
@@ -122,7 +122,7 @@ export default function HostPanel(){
                                         className="slider"
                                     />
                                 </div>
-                                <h3 className="title3 float-left">Player Limit = { playerLimit }</h3>
+                                <h3 className="title3 float-left">Player Limit: {playerLimit}</h3>
                                 <div className="input-container">
                                     <input
                                         type="range"
@@ -143,7 +143,7 @@ export default function HostPanel(){
                                             className="float-left"
                                             type="checkbox"
                                             name="Randomize only"
-                                            onChange={e => setRandomiseOnly(e.target.value)}
+                                            onChange={e => setRandomiseOnly(e.target.checked)}
                                         />
                                         <label className="title3">Randomise Boards Only</label>
                                     </div>
