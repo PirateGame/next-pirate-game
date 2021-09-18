@@ -40,7 +40,7 @@ export default function Host(){
                     body: JSON.stringify(body),
                 })
                 .then((r) => r.json())
-                .then((data) => {
+                .then(async (data) => {
                     if (data && data.error == true) {
                         toast(data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT
@@ -50,23 +50,27 @@ export default function Host(){
                         toast("connecting to server", {
                             position: toast.POSITION.BOTTOM_RIGHT
                         });
-                        var socket = io("http://localhost:1001")
+                        const socket = io("http://localhost:1001")
+                        
+                        socket.on("connect", () => {
+                            toast("Registering with server", {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            });
+                            socket.emit("Register", playerName, gameName, (response: any) => {
+                                cookie.set('token', response.token)
+                            });
+                            cookie.set('gameName', gameName)
+                            cookie.set('playerName', playerName)
+                            router.push('/HostPanel')
+                          });
 
-                        if (socket == null || socket.connected == false) {
+                        socket.io.on("error", (error) => {
                             toast("could not connect to server", {
                                 position: toast.POSITION.BOTTOM_RIGHT
                             });
+                            socket.disconnect()
                             return
-                        }
-                        toast("Registering with server", {
-                            position: toast.POSITION.BOTTOM_RIGHT
                         });
-                        socket.emit("Register", playerName, gameName, (response: any) => {
-                            cookie.set('token', response.token)
-                        });
-                        cookie.set('gameName', gameName)
-                        cookie.set('playerName', playerName)
-                        router.push('/HostPanel')
                     }
                 })
             }

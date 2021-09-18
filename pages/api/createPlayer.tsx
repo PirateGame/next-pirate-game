@@ -21,7 +21,6 @@ async function findUniqueName(gameName: string, playerName: string){
             name: true
         }
     })
-    console.log(result)
     return result
 }
 
