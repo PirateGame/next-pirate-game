@@ -34,10 +34,11 @@ export default function Join(){
                 });
                 var socket = io("http://localhost:1001")
 
-                if (socket == null) {
+                if (socket == null || socket.connected == false) {
                     toast("not connected to server", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });
+                    return
                 }
                 toast("Registering with server", {
                     position: toast.POSITION.BOTTOM_RIGHT

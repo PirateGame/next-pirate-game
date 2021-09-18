@@ -52,10 +52,11 @@ export default function Host(){
                         });
                         var socket = io("http://localhost:1001")
 
-                        if (socket == null) {
-                            toast("not connected to server", {
+                        if (socket == null || socket.connected == false) {
+                            toast("could not connect to server", {
                                 position: toast.POSITION.BOTTOM_RIGHT
                             });
+                            return
                         }
                         toast("Registering with server", {
                             position: toast.POSITION.BOTTOM_RIGHT
