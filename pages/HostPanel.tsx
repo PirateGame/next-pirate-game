@@ -80,7 +80,7 @@ export default function HostPanel(){
             console.log(response)
 
             setClientList(
-                response.playerList.map(player => player.name)
+                response.playerList.map((player: { name: any; }) => player.name)
             )
         });
     }
