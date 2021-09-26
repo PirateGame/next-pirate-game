@@ -18,7 +18,8 @@ export default function Host(){
         e.preventDefault()
         var gridSizex = parseInt(Sizex)
         var gridSizey = parseInt(Sizey)
-        const body = {gameName, playerName, gridSizex, gridSizey}
+        var tiles = generateTiles(gridSizex, gridSizey)
+        const body = {gameName, playerName, gridSizex, gridSizey, tiles}
         await fetch('/api/createGame', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -79,6 +80,63 @@ export default function Host(){
             }
         })
     }
+
+    const generateTiles = (gridSizeX: number, gridSizey: number) => {
+        var gridSize = gridSizeX * gridSizey
+        if (gridSize <= 25 ){
+            var actionCount = 1
+        } else {
+            var actionCount = Math.round((gridSize + 12.5)/25)-1
+        }
+        var max5000 = Math.ceil(gridSize * (1/49))
+        var max3000 = Math.ceil(gridSize * (2/49))
+        var max1000 = Math.ceil(gridSize * (10/49))
+        var max200 = Math.ceil(gridSize * (25/49))
+        var totalActionCount = actionCount * 11
+        var total = (max5000 + max3000 + max1000 + max200 + totalActionCount) - gridSize
+        var minimum = toMinimize(max5000, max3000, max1000, max200, total, 0, 0, 0)
+
+        var minimumInputs = [total,0,0,0]
+        for (let max5000s = 0; max5000s < total; max5000s++){ //This tests all the possible board tile removal combinations.
+            for (let max3000s = 0; max3000s <total-max5000s; max3000s++){
+                for (let max1000s = 0; max1000s < (total-max5000s-max3000s); max1000s++){
+                    for (let max200s = 0;  max200s < (total-max5000s-max3000s-max1000s); max200s++){
+                        max200s += 1
+                        if (max5000s + max3000s + max1000s + max200s == total){
+                            let result = toMinimize(max5000, max3000, max1000, max200, max5000s, max3000s, max1000s, max200s)
+                            if (result < minimum){
+                                minimum = result
+                                minimumInputs = [max5000s, max3000s, max1000s, max200s]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        max5000 -= minimumInputs[0] //Remove the optimal combination from each type of money tile.
+        max3000 -= minimumInputs[1]
+        max1000 -= minimumInputs[2]
+        max200 -= minimumInputs[3]
+
+        var tileNums: { [key: string]: any } = {}
+        var letters = ["A","B","C","D","E","F","G","H","I","J","K"]
+        for (let i = 0; i < letters.length; i++){
+            tileNums[letters[i]] = actionCount
+        }
+        tileNums["5000"] = max5000
+        tileNums["3000"] = max3000
+        tileNums["1000"] = max1000
+        tileNums["200"] = max200
+
+        return tileNums
+
+    }
+
+    const toMinimize = (max5000: number, max3000: number, max1000: number, max200: number, max5000s: number, max3000s: number, max1000s: number, max200s: number) => {
+        return Math.abs((((5000*(max5000-max5000s))+(3000*(max3000-max3000s))+(1000*(max1000-max1000s))+(200*(max200-max200s))) / ((max5000-max5000s)+(max3000-max3000s)+(max1000-max1000s)+(max200-max200s))) - ((((max5000)*5000)+((max3000)*3000)+((max1000)*1000)+((max200)*200)) / (max5000+max3000+max1000+max200))) 
+    }
+
     return (
         <Layout>
             <div className="bg-generic">

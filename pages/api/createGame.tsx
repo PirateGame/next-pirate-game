@@ -11,7 +11,7 @@ async function findGame(gameName: string){
     return result
 }
 
-async function createGame(gameName: string, gridSizex: number, gridSizey: number) {
+async function createGame(gameName: string, gridSizex: number, gridSizey: number, tiles: any) {
     var result = await prisma.game.create({
         data: {
             name: gameName,
@@ -19,6 +19,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             sizeY: gridSizey,
             quickPlay: false,
             decisionTime: 30,
+            tiles: tiles,
             turnNumber: 0,
             chosenTiles: {},
             scoreHistory: {},
@@ -38,13 +39,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         var playerName = req.body.playerName
         var gridSizex = req.body.gridSizex
         var gridSizey = req.body.gridSizey
+        var tiles = req.body.tiles
 
         if (await findGame(gameName) !== null) {
             //game with name exists
             res.status(500).json({error: true, message: "game with same name already exists"})
             return
         } else {
-            var game = await createGame(gameName, gridSizex, gridSizey)
+            var game = await createGame(gameName, gridSizex, gridSizey, tiles)
             if (game == null){
                 //something failed
                 res.status(500).json({error: true, message: "game creation failed"})

@@ -17,6 +17,7 @@ model Game {
   quickPlay     Boolean
   decisionTime  Int
   turnNumber    Int
+  tiles         Json
   chosenTiles   Json
   scoreHistory  Json
   playerLimit   Int
