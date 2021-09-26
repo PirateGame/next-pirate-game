@@ -30,6 +30,7 @@ async function joinGame(gameName: string, playerName: string, host: boolean) {
             name: playerName,
             money: 0,
             bank: 0,
+            board: 0,
             shield: 0,
             mirror: 0,
             ship: -1,

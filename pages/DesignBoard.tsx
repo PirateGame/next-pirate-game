@@ -13,9 +13,11 @@ export default function DesignBoard(){
     const playerName = cookie.get("playerName")
     const [gridHeight, setGridHeight] = useState(-1)
     const [gridWidth, setGridWidth] = useState(-1)
+    const [tiles, setTiles] = useState()
+    var grids: any = [];
 
 
-    const getGridDim = async () => {
+    const getGrid = async () => {
         const body = {gameName, playerName}
         await fetch('/api/readGame', {
             method: 'POST',
@@ -34,32 +36,41 @@ export default function DesignBoard(){
                 console.log(data.game)
                 setGridHeight(data.game.sizeX)
                 setGridWidth(data.game.sizeY)
+                setTiles(data.game.tiles)
             }
             else {
-                console.log("error in PickTeam.tsx isRandomiseOnly() failed")
+                console.log("error in DesignBoard.tsx getGrid() failed")
             }
         })
     }
 
     const submitBoard = () => {
-        //write to db?
+        //write to db
     }
 
     const randomiseBoard = () => {
         //probably socket unless we do it client side
     }
 
-    const getTiles = () => {
-        //read game
+    const generateGrid = () => {
+        //probably socket unless we do it client side
     }
 
     const clearBoard = () => {
-        //client side
+        grids[0].removeAll();
+        grids[1].removeAll();
+        grids[1].load(tiles) //TODO this won't work as it is just how many of each tile.
+        grids[0].load([{content: '£5000',noResize: true, noMove:false}]);
     }
     
     useEffect(() => {
         console.log("loading grids")
-        getGridDim()
+        const fetchData = async () => {
+            await getGrid()
+        }
+
+        generateGrid()
+        
         var MANDATORYitems = [
             {content: '£5000',noResize: true, noMove:false}
         ];
@@ -78,6 +89,7 @@ export default function DesignBoard(){
         grids[1].float(false);
         grids[1].column(1);
         grids[1].cellHeight(50)// = 50; //pixels
+        grids[1].load(tiles)
     }, [])
 
     return (

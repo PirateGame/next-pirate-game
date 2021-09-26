@@ -1,17 +1,32 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model player {
+  name     String
+  gameName String
+  money    Int
+  bank     Int
+  board    Json
+  shield   Int
+  mirror   Int
+  ship     Int
+  captain  Int
+  host     Boolean
+  token    String
+  id       Int     @unique(map: "player.id_unique") @default(autoincrement())
+  game     game    @relation(fields: [gameName], references: [name], onDelete: Cascade, map: "player_ibfk_1")
+
+  @@index([gameName], map: "gameName")
 }
 
-model Game {
-  name          String   @unique
+model game {
+  name          String   @unique(map: "Game.name_unique")
   sizeX         Int
   sizeY         Int
   quickPlay     Boolean
@@ -22,20 +37,5 @@ model Game {
   scoreHistory  Json
   playerLimit   Int
   randomiseOnly Boolean
-  players       player[]
-}
-
-model player {
-  name     String
-  gameName String
-  money    Int
-  bank     Int
-  shield   Int
-  mirror   Int
-  ship     Int
-  captain  Int
-  host     Boolean
-  token    String
-  id       Int     @unique @default(autoincrement())
-  Game     Game    @relation(fields: [gameName], references: [name])
+  player        player[]
 }
