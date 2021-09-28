@@ -119,17 +119,17 @@ export default function Host(){
         max1000 -= minimumInputs[2]
         max200 -= minimumInputs[3]
 
-        var tileNums: { [key: string]: any } = {}
+        var tiles: { [key: string]: any } = {}
         var letters = ["A","B","C","D","E","F","G","H","I","J","K"]
         for (let i = 0; i < letters.length; i++){
-            tileNums[letters[i]] = actionCount
+            tiles[letters[i]] = actionCount
         }
-        tileNums["5000"] = max5000
-        tileNums["3000"] = max3000
-        tileNums["1000"] = max1000
-        tileNums["200"] = max200
+        tiles["5000"] = max5000
+        tiles["3000"] = max3000
+        tiles["1000"] = max1000
+        tiles["200"] = max200
 
-        return tileNums
+        return tiles
 
     }
 

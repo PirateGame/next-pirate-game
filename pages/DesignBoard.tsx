@@ -13,7 +13,7 @@ export default function DesignBoard(){
     const playerName = cookie.get("playerName")
     const [gridHeight, setGridHeight] = useState(-1)
     const [gridWidth, setGridWidth] = useState(-1)
-    const [tiles, setTiles] = useState()
+    const [tiles, setTiles] = useState([])
     var grids: any = [];
 
 
@@ -63,6 +63,55 @@ export default function DesignBoard(){
         grids[0].load([{content: '£5000',noResize: true, noMove:false}]);
     }
     
+    const tilesToBoard = (tiles: any[], positions: boolean) => {
+        /*
+        This function takes the list of tiles and translates them to be able to be sent to gridstack
+        if we don't require positions (eg sidebar) then we can just give each tile an id and some extra atributes
+
+        if we want positions, this function only returns random positions (randomise button)
+
+        */
+        var board: any = [];
+        var positionValues: any = []
+
+        for (var x = 0; x < gridWidth; x++){
+            for (var y = 0; y < gridWidth; y++){
+                positionValues.append([x,y])
+            }
+        }
+        var idCounter = 0
+
+        //loop through tiles array
+        //{"A": 1, "B": 1, "C": 1, "D": 1, and so on.
+        for (const [key, value] of Object.entries(tiles)) {
+            for ( var i = 0; i < value; i++){
+                var id = idCounter
+                id++
+                if (/\d/.test(key)){
+                    continue
+                    //change Letters to Tile names
+                    //content = name
+                } else {
+                    var content = key.toString()
+                }
+                    
+                if (positions) {
+                    //chose position from list
+                    var index = Math.floor(Math.random() * positionValues.length)
+                    var x: number = positionValues[index][0]
+                    var y: number = positionValues[index][1]
+                    //remove chosen position from list
+                    positionValues.splice(index, 1)
+
+                    board.append({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true, "noMove":false})
+                } else {
+                    board.append({"id":id, "content":content, "noResize": true, "noMove":false})
+                }
+            }
+        }
+          return board
+    }
+
     useEffect(() => {
         console.log("loading grids")
         const fetchData = async () => {
@@ -89,7 +138,7 @@ export default function DesignBoard(){
         grids[1].float(false);
         grids[1].column(1);
         grids[1].cellHeight(50)// = 50; //pixels
-        grids[1].load(tiles)
+        grids[1].load(tilesToBoard(tiles, false))
     }, [])
 
     return (
