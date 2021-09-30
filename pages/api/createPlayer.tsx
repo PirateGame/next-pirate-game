@@ -37,7 +37,7 @@ async function joinGame(gameName: string, playerName: string, host: boolean) {
             captain: -1,
             host: host,
             token: "",
-            Game: {
+            game: {
                 connect: {name: gameName}
             }
 

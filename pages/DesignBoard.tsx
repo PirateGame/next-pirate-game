@@ -59,7 +59,7 @@ export default function DesignBoard(){
     const clearBoard = () => {
         grids[0].removeAll();
         grids[1].removeAll();
-        grids[1].load(tiles) //TODO this won't work as it is just how many of each tile.
+        grids[1].load(tilesToBoard(tiles, false))
         grids[0].load([{content: '£5000',noResize: true, noMove:false}]);
     }
     
@@ -117,19 +117,18 @@ export default function DesignBoard(){
         const fetchData = async () => {
             await getGrid()
         }
-
-        generateGrid()
         
         var MANDATORYitems = [
             {content: '£5000',noResize: true, noMove:false}
         ];
-
-        var grids = GridStack.initAll({
+        
+        grids = GridStack.initAll({
             dragIn: '.grid-stack-item',
             dragInOptions: { revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone' },
             acceptWidgets: function(el) { return true; },
             minRow: 1,
         });
+        
         grids[0].float(true);
         grids[0].column(gridWidth);
         grids[0].opts.minRow = gridHeight;
@@ -137,7 +136,7 @@ export default function DesignBoard(){
         grids[0].load(MANDATORYitems);
         grids[1].float(false);
         grids[1].column(1);
-        grids[1].cellHeight(50)// = 50; //pixels
+        grids[1].cellHeight(50)// pixels
         grids[1].load(tilesToBoard(tiles, false))
     }, [])
 
