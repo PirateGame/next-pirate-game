@@ -1,58 +1,33 @@
-import Router from 'next/router'
-import Link from 'next/link'
 import Layout from '../components/Layout'
 import React, { useState, useEffect } from 'react';
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
 import cookie from 'js-cookie'
+import router from 'next/router';
 import { toast } from 'react-toastify';
 
 
 export default function DesignBoard(){
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
-    const [gridHeight, setGridHeight] = useState(-1)
-    const [gridWidth, setGridWidth] = useState(-1)
-    const [tiles, setTiles] = useState([])
+    const gridHeight = parseInt(cookie.get("gridY"))
+    const gridWidth = parseInt(cookie.get("gridX"))
+    var tiles: any
+    try {
+        var tiles = JSON.parse(cookie.get("tiles"))
+    }
+    catch(err) {
+        //router.push('/PickTeam')
+      }
     var grids: any = [];
 
-
-    const getGrid = async () => {
-        const body = {gameName, playerName}
-        await fetch('/api/readGame', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(body),
-        })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.game) {
-                console.log(data.game)
-                setGridHeight(data.game.sizeX)
-                setGridWidth(data.game.sizeY)
-                setTiles(data.game.tiles)
-            }
-            else {
-                console.log("error in DesignBoard.tsx getGrid() failed")
-            }
-        })
-    }
+    var gridclass: string = "grid-stack grid-stack-" + gridWidth
 
     const submitBoard = () => {
         //write to db
     }
 
     const randomiseBoard = () => {
-        //probably socket unless we do it client side
-    }
-
-    const generateGrid = () => {
         //probably socket unless we do it client side
     }
 
@@ -76,7 +51,7 @@ export default function DesignBoard(){
 
         for (var x = 0; x < gridWidth; x++){
             for (var y = 0; y < gridWidth; y++){
-                positionValues.append([x,y])
+                positionValues.push([x,y])
             }
         }
         var idCounter = 0
@@ -87,13 +62,7 @@ export default function DesignBoard(){
             for ( var i = 0; i < value; i++){
                 var id = idCounter
                 id++
-                if (/\d/.test(key)){
-                    continue
-                    //change Letters to Tile names
-                    //content = name
-                } else {
-                    var content = key.toString()
-                }
+                var content = key.toString()
                     
                 if (positions) {
                     //chose position from list
@@ -103,9 +72,9 @@ export default function DesignBoard(){
                     //remove chosen position from list
                     positionValues.splice(index, 1)
 
-                    board.append({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true, "noMove":false})
+                    board.push({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true, "noMove":false})
                 } else {
-                    board.append({"id":id, "content":content, "noResize": true, "noMove":false})
+                    board.push({"id":id, "content":content, "noResize": true, "noMove":false})
                 }
             }
         }
@@ -113,13 +82,16 @@ export default function DesignBoard(){
     }
 
     useEffect(() => {
-        console.log("loading grids")
-        const fetchData = async () => {
-            await getGrid()
+        if (tiles.length == 0) {
+            return
         }
-        
+        console.log("loading grids")
+
+        console.log(tiles)
+        console.log(tilesToBoard(tiles, false))
+
         var MANDATORYitems = [
-            {content: '£5000',noResize: true, noMove:false}
+            {x:2, y:2, w:1, h:1, content: '£5000', id:5000, noResize: true, noMove:false}
         ];
         
         grids = GridStack.initAll({
@@ -129,19 +101,20 @@ export default function DesignBoard(){
             minRow: 1,
         });
         
-        grids[0].float(true);
-        grids[0].column(gridWidth);
-        grids[0].opts.minRow = gridHeight;
-        grids[0].opts.maxRow = gridHeight;
-        grids[0].load(MANDATORYitems);
-        grids[1].float(false);
-        grids[1].column(1);
+        grids[0].float(true)
+        grids[0].column(gridWidth)
+        grids[0].opts.minRow = gridHeight
+        grids[0].opts.maxRow = gridHeight
+        grids[0].load(MANDATORYitems)
+        grids[1].float(false)
+        grids[1].column(1)
         grids[1].cellHeight(50)// pixels
         grids[1].load(tilesToBoard(tiles, false))
     }, [])
 
     return (
         <Layout>
+            <script src="node_modules/gridstack/dist/gridstack-h5.js"></script>
             <div className="bg-gamepage">
                 <h2 className="title2">Drag and drop the tiles to create your board, or hit the randomise button.</h2>
                 <div className="flex-container w-full h-1/5">
@@ -174,7 +147,7 @@ export default function DesignBoard(){
                     </div>
                 </div>
                 <div className="board-holder">
-                    <div className="grid-stack">
+                    <div className={gridclass}>
 
                     </div>
                 </div>

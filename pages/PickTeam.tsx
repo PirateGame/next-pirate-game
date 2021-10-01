@@ -33,7 +33,35 @@ export default function PickTeam(){
         var y = document.getElementById("ship");
         if (!y) return
         y.style.display = "block";
+        getGrid()
         
+    }
+
+    const getGrid = async () => {
+        const body = {gameName, playerName}
+        await fetch('/api/readGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data && data.game) {
+                console.log(data.game)
+                cookie.set('gridX', data.game.sizeX)
+                cookie.set('gridY', data.game.sizeY)
+                cookie.set('tiles', JSON.stringify(data.game.tiles))
+            }
+            else {
+                console.log("error in DesignBoard.tsx getGrid() failed")
+            }
+        })
     }
 
     const isRandomiseOnly = async () => { 
