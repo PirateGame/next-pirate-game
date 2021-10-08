@@ -131,9 +131,9 @@ export default function DesignBoard(){
             cellHeight: 50,
         };
 
-        var main = GridStack.init(mainoptions, document.getElementById("main")!)
+        main = GridStack.init(mainoptions, document.getElementById("main")!)
         console.log(main)
-        var secondary = GridStack.init(secondaryoptions, document.getElementById("secondary")!)
+        secondary = GridStack.init(secondaryoptions, document.getElementById("secondary")!)
         
         main.load(MANDATORYitems)
         secondary.load(tilesToBoard(tiles, false))
