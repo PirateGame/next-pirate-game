@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import React, { useState, useEffect } from 'react';
 import 'gridstack/dist/gridstack.min.css';
+import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
 
 
@@ -17,34 +18,42 @@ import { toast } from 'react-toastify';
 export default function DesignBoard(){
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
-    const gridHeight = parseInt(cookie.get("gridY"))
-    const gridWidth = parseInt(cookie.get("gridX"))
+    const gridHeight = parseInt(cookie.get("gridY")|| "0")
+    const gridWidth = parseInt(cookie.get("gridX")|| "0")
     var tiles: any
     try {
-        var tiles = JSON.parse(cookie.get("tiles"))
+        var tiles = JSON.parse(cookie.get("tiles")|| "")
     }
     catch(err) {
         //router.push('/PickTeam')
     }
-    var grids: any = [];
+    var main: any
+    var secondary: any
 
-    var gridclass: string = "grid-stack grid-stack-" + gridWidth
+    if (gridWidth != 0){
+        var gridclass: string = "grid-stack grid-stack-" + gridWidth
+    } else {
+        var gridclass: string = "grid-stack"
+    }
+
+    
 
     const submitBoard = () => {
         //write to db
     }
 
     const randomiseBoard = () => {
-        grids[0].removeAll();
-        grids[1].removeAll();
-        grids[0].load(tilesToBoard(tiles, true))
+        console.log(main)
+        main.removeAll();
+        secondary.removeAll();
+        main.load(tilesToBoard(tiles, true))
     }
 
     const clearBoard = () => {
-        grids[0].removeAll();
-        grids[1].removeAll();
-        grids[1].load(tilesToBoard(tiles, false))
-        grids[0].load([{content: '£5000', noResize: true}]);
+        main.removeAll();
+        secondary.removeAll();
+        secondary.load(tilesToBoard(tiles, false))
+        main.load([{content: '£5000', noResize: true}]);
     }
     
     const tilesToBoard = (tiles: any[], positions: boolean) => {
@@ -103,28 +112,39 @@ export default function DesignBoard(){
             {x:2, y:2, w:1, h:1, content: '£5000', id:5000, noResize: true, noMove:false}
         ];
         
-        grids = GridStack.initAll({
+        var mainoptions = {
             dragIn: '.grid-stack-item',
             dragInOptions: { revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone' },
-            acceptWidgets: function(el) { return true; },
+            acceptWidgets: function(el: any) { return true; },
             minRow: gridHeight,
             maxRow: gridHeight,
-        });
+            float: true,
+            column: gridWidth
+        };
+        var secondaryoptions = {
+            dragIn: '.grid-stack-item',
+            dragInOptions: { revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone' },
+            acceptWidgets: function(el: any) { return true; },
+            minRow: 1,
+            float: false,
+            column: 1,
+            cellHeight: 50,
+        };
+
+        var main = GridStack.init(mainoptions, document.getElementById("main")!)
+        console.log(main)
+        var secondary = GridStack.init(secondaryoptions, document.getElementById("secondary")!)
         
-        grids[0].float(true)
-        grids[0].column(gridWidth)
-        grids[0].load(MANDATORYitems)
-        grids[1].float(false)
-        grids[1].column(1)
-        grids[1].cellHeight(50)// pixels
-        grids[1].load(tilesToBoard(tiles, false))
+        main.load(MANDATORYitems)
+        secondary.load(tilesToBoard(tiles, false))
+        console.log(main)
     }, [])
 
     return (
         <Layout>
             <script src="node_modules/gridstack/dist/gridstack-h5.js"></script>
             <div className="bg-gamepage">
-                <h2 className="title2">Drag and drop the tiles to create your board, or hit the randomise button.</h2>
+                <h2 className="title2">Drag and drop the tiles to create your board.</h2>
                 <div className="flex-container w-full h-1/5">
                     <div className="flex-child">
                         <input
@@ -155,14 +175,14 @@ export default function DesignBoard(){
                     </div>
                 </div>
                 <div className="board-holder">
-                    <div className={gridclass}>
+                    <div className={gridclass} id="main">
 
                     </div>
                 </div>
                 <div className="board-holder-narrow">
                     
                     <div className="board-scroll">
-                        <div className="grid-stack grid-stack-1"></div>
+                        <div className="grid-stack grid-stack-1" id="secondary"></div>
                     </div>
                     
                 </div>
