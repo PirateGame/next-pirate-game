@@ -53,7 +53,6 @@ export default function DesignBoard(){
         main.removeAll();
         secondary.removeAll();
         secondary.load(tilesToBoard(tiles, false))
-        main.load([{content: '£5000', noResize: true}]);
     }
     
     const tilesToBoard = (tiles: any[], positions: boolean) => {
@@ -108,9 +107,6 @@ export default function DesignBoard(){
         console.log(tiles)
         console.log(tilesToBoard(tiles, false))
 
-        var MANDATORYitems = [
-            {x:2, y:2, w:1, h:1, content: '£5000', id:5000, noResize: true, noMove:false}
-        ];
         
         var mainoptions = {
             dragIn: '.grid-stack-item',
@@ -135,7 +131,6 @@ export default function DesignBoard(){
         console.log(main)
         secondary = GridStack.init(secondaryoptions, document.getElementById("secondary")!)
         
-        main.load(MANDATORYitems)
         secondary.load(tilesToBoard(tiles, false))
         console.log(main)
     }, [])
