@@ -2,6 +2,13 @@ import Layout from '../components/Layout'
 import React, { useState, useEffect } from 'react';
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
+
+
+import 'gridstack/dist/h5/gridstack-dd-native';
+//if this line breaks (document not found)
+//go to \h5\dd-utils.js and remove the lines with document
+//set supports passive to true
+
 import cookie from 'js-cookie'
 import router from 'next/router';
 import { toast } from 'react-toastify';
@@ -18,7 +25,7 @@ export default function DesignBoard(){
     }
     catch(err) {
         //router.push('/PickTeam')
-      }
+    }
     var grids: any = [];
 
     var gridclass: string = "grid-stack grid-stack-" + gridWidth
