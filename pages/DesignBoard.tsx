@@ -107,13 +107,12 @@ export default function DesignBoard(){
             dragIn: '.grid-stack-item',
             dragInOptions: { revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone' },
             acceptWidgets: function(el) { return true; },
-            minRow: 1,
+            minRow: gridHeight,
+            maxRow: gridHeight,
         });
         
         grids[0].float(true)
         grids[0].column(gridWidth)
-        grids[0].opts.minRow = gridHeight
-        grids[0].opts.maxRow = gridHeight
         grids[0].load(MANDATORYitems)
         grids[1].float(false)
         grids[1].column(1)
