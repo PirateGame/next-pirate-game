@@ -35,14 +35,16 @@ export default function DesignBoard(){
     }
 
     const randomiseBoard = () => {
-        //probably socket unless we do it client side
+        grids[0].removeAll();
+        grids[1].removeAll();
+        grids[0].load(tilesToBoard(tiles, true))
     }
 
     const clearBoard = () => {
         grids[0].removeAll();
         grids[1].removeAll();
         grids[1].load(tilesToBoard(tiles, false))
-        grids[0].load([{content: '£5000',noResize: true, noMove:false}]);
+        grids[0].load([{content: '£5000', noResize: true}]);
     }
     
     const tilesToBoard = (tiles: any[], positions: boolean) => {
@@ -68,7 +70,7 @@ export default function DesignBoard(){
         for (const [key, value] of Object.entries(tiles)) {
             for ( var i = 0; i < value; i++){
                 var id = idCounter
-                id++
+                idCounter++
                 var content = key.toString()
                     
                 if (positions) {
@@ -79,9 +81,9 @@ export default function DesignBoard(){
                     //remove chosen position from list
                     positionValues.splice(index, 1)
 
-                    board.push({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true, "noMove":false})
+                    board.push({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true})
                 } else {
-                    board.push({"id":id, "content":content, "noResize": true, "noMove":false})
+                    board.push({"id":id, "content":content, "noResize": true})
                 }
             }
         }
