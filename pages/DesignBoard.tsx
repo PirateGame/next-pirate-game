@@ -41,6 +41,18 @@ export default function DesignBoard(){
 
     const submitBoard = () => {
         var serializedData = main.save();
+        if (serializedData.length != gridHeight * gridWidth) {
+            toast("Board not valid", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        } else {
+            //board has correct number of tiles
+            var board: any = [];
+            for (var tile in serializedData) {
+                board.push({"x":serializedData[tile].x, "y":serializedData[tile].y, "content":serializedData[tile].content})
+            }
+        }
 
         var _socket = io("http://localhost:1001")
         if (!_socket) return
@@ -54,7 +66,7 @@ export default function DesignBoard(){
             return
         }
 
-        connection.emit("submitBoard", playerName, gameName, serializedData, (response: any) => {
+        connection.emit("submitBoard", playerName, gameName, board, (response: any) => {
             if (response.status != "ok") {
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT
@@ -64,7 +76,6 @@ export default function DesignBoard(){
     }
 
     const randomiseBoard = () => {
-        console.log(main)
         main.removeAll();
         secondary.removeAll();
         main.load(tilesToBoard(tiles, true))
@@ -124,10 +135,6 @@ export default function DesignBoard(){
             return
         }
         console.log("loading grids")
-
-        console.log(tiles)
-        console.log(tilesToBoard(tiles, false))
-
         
         var mainoptions = {
             dragIn: '.grid-stack-item',
@@ -149,11 +156,9 @@ export default function DesignBoard(){
         };
 
         main = GridStack.init(mainoptions, document.getElementById("main")!)
-        console.log(main)
         secondary = GridStack.init(secondaryoptions, document.getElementById("secondary")!)
         
         secondary.load(tilesToBoard(tiles, false))
-        console.log(main)
     }, [])
 
     return (
