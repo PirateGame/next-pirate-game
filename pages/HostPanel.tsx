@@ -76,7 +76,7 @@ export default function HostPanel(){
     }
 
     const getPlayers = async () => {
-        connection.emit("getPlayerList", gameName, (response: any) => {
+        connection.emit("getPlayerList", playerName, gameName, (response: any) => {
             console.log(response)
 
             setClientList(
@@ -94,10 +94,11 @@ export default function HostPanel(){
     
     const addAI = async () =>{
         connection.emit("addAI", token, (response: any) => {
-            console.log(response)
-            toast(response.status, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
+            if (response.status != "ok") {
+                toast(response.status, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } 
         });
     }
 

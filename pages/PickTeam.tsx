@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
 import React, { useState, useEffect } from 'react';
+import { io, Socket } from "socket.io-client";
 
 
 export default function PickTeam(){
@@ -94,30 +95,30 @@ export default function PickTeam(){
         //save to database
         //read from database if randomise only.
         //push to waiting room or design board.
-        const body = {gameName, playerName, captain, ship}
-        await fetch('/api/updatePlayer', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(body),
-        })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
+
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        console.log(_socket)
+        var connection = _socket //this does work
+
+        if (!connection) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+
+        connection.emit("setTeam", playerName, gameName, ship, captain, (response: any) => {
+            if (response.status != "ok") {
+                toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-            }
-            else if (data && data.update) {
+            } else {
                 if (randomiseOnly) {
                     Router.push("/WaitingRoom")
                 } else {
                     Router.push ("/DesignBoard")
                 }
-            }
-
-            else {
-                console.log("error in PickTeam.tsx sumbit() failed")
             }
         })
     }

@@ -33,25 +33,25 @@ export default function Join(){
                 });
                 const socket = io("http://localhost:1001")
                         
-                        socket.on("connect", () => {
-                            toast("Registering with server", {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            });
-                            socket.emit("Register", playerName, gameName, (response: any) => {
-                                cookie.set('token', response.token)
-                            });
-                            cookie.set('gameName', gameName)
-                            cookie.set('playerName', playerName)
-                            router.push('/PickTeam')
-                          });
+                socket.on("connect", () => {
+                    toast("Registering with server", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    socket.emit("Register", playerName, gameName, (response: any) => {
+                        cookie.set('token', response.token)
+                    });
+                    cookie.set('gameName', gameName)
+                    cookie.set('playerName', playerName)
+                    router.push('/PickTeam')
+                    });
 
-                        socket.io.on("error", (error) => {
-                            toast("could not connect to server", {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            });
-                            socket.disconnect()
-                            return
-                        })
+                socket.io.on("error", (error) => {
+                    toast("could not connect to server", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    socket.disconnect()
+                    return
+                })
             }
             else {
                 console.log("error in join.tsx createPlayer() failed")

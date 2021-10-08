@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
+import { io, Socket } from "socket.io-client";
 
 
 import 'gridstack/dist/h5/gridstack-dd-native';
@@ -39,7 +40,27 @@ export default function DesignBoard(){
     
 
     const submitBoard = () => {
-        //write to db
+        var serializedData = main.save();
+
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        console.log(_socket)
+        var connection = _socket //this does work
+
+        if (!connection) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+
+        connection.emit("submitBoard", playerName, gameName, serializedData, (response: any) => {
+            if (response.status != "ok") {
+                toast(response.status, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } 
+        })
     }
 
     const randomiseBoard = () => {

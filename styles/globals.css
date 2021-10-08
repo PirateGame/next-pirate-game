@@ -161,6 +161,7 @@ html {
   font-weight: bold;
   color: white;
   height: 85%;
+  cursor: pointer;
 }
 .big-button :hover {
   cursor: pointer;
