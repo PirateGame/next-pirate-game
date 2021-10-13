@@ -56,8 +56,7 @@ export default function DesignBoard(){
 
         var _socket = io("http://localhost:1001")
         if (!_socket) return
-        console.log(_socket)
-        var connection = _socket //this does work
+        var connection = _socket
 
         if (!connection) {
             toast("not connected to server", {
@@ -71,7 +70,9 @@ export default function DesignBoard(){
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-            } 
+            } else {
+                router.push('/WaitingRoom')
+            }
         })
     }
 

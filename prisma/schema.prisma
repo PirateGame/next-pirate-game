@@ -37,5 +37,6 @@ model game {
   scoreHistory  Json
   playerLimit   Int
   randomiseOnly Boolean
+  state         Int
   player        player[]
 }

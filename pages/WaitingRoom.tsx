@@ -4,13 +4,17 @@ import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
 import React, { useState, useEffect } from 'react';
+import { io, Socket } from "socket.io-client";
+import router from 'next/router';
 
 
 export default function WaitingRoom(){
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const [host, setHost] = useState(false)
-    const [gameState, setGameState] = useState(false)
+    const [gameState, setGameState] = useState(0)
+    const token = cookie.get("token")
+    var connection: any
 
     const isHost = async () => {
         const body = {gameName, playerName}
@@ -39,12 +43,77 @@ export default function WaitingRoom(){
         })
     }
 
+    const getGameState = async() => {
+        const body = {gameName, playerName}
+        await fetch('/api/readGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data) {
+                setGameState(data.game.state)
+                console.log(data)
+                if(data.game.state == 1) {
+                    router.push("/Game")
+                }
+            }
+            else {
+                console.log("error in WaitingRoom.tsx getGameState failed")
+                console.log(data)
+            }
+        })
+    }
+
     const startGame = async () => { 
-        //tell socket to start game
+        connection.emit("startGame", playerName, gameName, (response: any) => {
+            if (response.status != "ok") {
+                toast(response.status, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } else {
+                router.push('/Game')
+            }
+        })
     }
 
     useEffect(() => {
         isHost()
+        getGameState()
+
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        connection = _socket
+
+        if (!connection) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+
+        connection.emit("join", playerName, gameName, token, (response: any) => {
+            if (response.status == false) {
+                toast("couldn't join server room.", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } 
+        })
+
+        connection.on("gameStateUpdate", (state: number)=> {
+            setGameState(state)
+            if(state == 1){
+                router.push("/Game")
+            }
+          });
+
     }, [])
     //get game state
     //listen to state updates

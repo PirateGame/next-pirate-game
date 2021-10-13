@@ -23,6 +23,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             turnNumber: 0,
             chosenTiles: {},
             scoreHistory: {},
+            state: 0,
             playerLimit: 12,
             randomiseOnly: false
 
