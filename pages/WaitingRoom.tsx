@@ -1,4 +1,3 @@
-import Router from 'next/router'
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
@@ -115,11 +114,6 @@ export default function WaitingRoom(){
           });
 
     }, [])
-    //get game state
-    //listen to state updates
-    //if state is ready update state
-    //if state is started, push /Game
-
     
     return (
         <Layout>
@@ -135,7 +129,7 @@ export default function WaitingRoom(){
                             type="button"
                             value="Rules"
                             className="big-button bg-genericButton text-white no-underline w-1/2 m-2"
-                            onClick={()=>Router.push("/Rules")}
+                            onClick={()=>router.push("/Rules")}
                         />
                     </div>
                     {host ? (
@@ -150,13 +144,7 @@ export default function WaitingRoom(){
                                 />
                                 </div>
                                 ) : (
-                                <div className="h-full text-center">
-                                    <input
-                                        type="button"
-                                        value="Play"
-                                        className="big-button bg-red text-white no-underline w-1/2 m-2"
-                                    />
-                                </div>
+                                <br />
                             )}
                         </div>
                     ):(
