@@ -50,7 +50,7 @@ export default function DesignBoard(){
             //board has correct number of tiles
             var board: any = [];
             for (var tile in serializedData) {
-                board.push({"x":serializedData[tile].x, "y":serializedData[tile].y, "content":serializedData[tile].content})
+                board.push({"x":serializedData[tile].x, "y":serializedData[tile].y, "content":serializedData[tile].content, "id":serializedData[tile].id})
             }
         }
 
