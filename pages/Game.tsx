@@ -63,6 +63,32 @@ export default function Game(){
         })
     }
 
+    const addMessage = (message: string, turnNum: number) => {
+        var div = document.createElement('div');
+        div.innerHTML = '<h3 name="event">' + message + '</h3>';
+        if (turnNum % 2 ==0){
+            div.className = 'message'
+        } else {
+            div.className = 'message-dark'
+        }
+        
+        var chat = document.getElementById("chat")
+        if(chat == null) {
+            return
+        }
+        chat.insertBefore(div, chat.children[0]);
+    }
+
+    const clearAllMessages = () => {
+        var log = document.getElementById("chat")
+        if (log == null) {
+            return
+        }
+        while (log.firstChild) {
+            log.removeChild(log.firstChild);
+        }
+    }
+
     useEffect(() => {
         console.log("loading grids")
         

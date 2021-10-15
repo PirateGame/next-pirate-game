@@ -72,7 +72,7 @@ export default function WaitingRoom(){
     }
 
     const startGame = async () => { 
-        connection.emit("startGame", playerName, gameName, (response: any) => {
+        connection.emit("startGame", playerName, gameName, token, (response: any) => {
             if (response.status != "ok") {
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT
@@ -108,10 +108,11 @@ export default function WaitingRoom(){
 
         connection.on("gameStateUpdate", (state: number)=> {
             setGameState(state)
-            if(state == 1){
-                router.push("/Game")
-            }
-          });
+        });
+
+        connection.on("gameStart", (state: number)=> {
+            router.push("/Game")
+        });
 
     }, [])
     

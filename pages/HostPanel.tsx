@@ -77,11 +77,7 @@ export default function HostPanel(){
 
     const getPlayers = async () => {
         connection.emit("getPlayerList", playerName, gameName, (response: any) => {
-            console.log(response)
-
-            setClientList(
-                response.playerList.map((player: { name: any; }) => player.name)
-            )
+            setClientList(response.playerList)
         });
     }
 

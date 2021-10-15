@@ -26,17 +26,18 @@ model player {
 }
 
 model game {
-  name          String   @unique(map: "Game.name_unique")
-  sizeX         Int
-  sizeY         Int
-  quickPlay     Boolean
-  decisionTime  Int
-  turnNumber    Int
-  tiles         Json
-  chosenTiles   Json
-  scoreHistory  Json
-  playerLimit   Int
-  randomiseOnly Boolean
-  state         Int
-  player        player[]
+  name           String   @unique(map: "Game.name_unique")
+  sizeX          Int
+  sizeY          Int
+  quickPlay      Boolean
+  decisionTime   Int
+  turnNumber     Int
+  tiles          Json
+  tilesRemaining Json
+  scoreHistory   Json
+  queue          Json
+  playerLimit    Int
+  randomiseOnly  Boolean
+  state          Int
+  player         player[]
 }

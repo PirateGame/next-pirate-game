@@ -12,6 +12,14 @@ async function findGame(gameName: string){
 }
 
 async function createGame(gameName: string, gridSizex: number, gridSizey: number, tiles: any) {
+
+    var order = []
+    for(var x = 0; x < gridSizex; x++) {
+        for(var y = 0; y < gridSizey; y++) {
+            order.push([x,y])
+        }
+    }
+
     var result = await prisma.game.create({
         data: {
             name: gameName,
@@ -21,8 +29,9 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             decisionTime: 30,
             tiles: tiles,
             turnNumber: 0,
-            chosenTiles: {},
+            tilesRemaining: order,
             scoreHistory: {},
+            queue: {},
             state: 0,
             playerLimit: 12,
             randomiseOnly: false
