@@ -97,17 +97,18 @@ export default function Game(){
     const addMessage = (message: string) => {
         var div = document.createElement('div');
         div.innerHTML = '<h3 name="event">' + message + '</h3>';
-        // if (turnNum % 2 ==0){
-        //     div.className = 'message'
-        // } else {
-        //     div.className = 'message-dark'
-        // }
+        
 
-        div.className = 'message title3'
+        div.className = 'message'
         
         var chat = document.getElementById("chat")
         if(chat == null) {
             return
+        }
+        if (chat.children.length % 2 == 0){
+            div.className = 'message title3'
+        } else {
+            div.className = 'message-dark title3'
         }
         chat.insertBefore(div, chat.children[0]);
     }

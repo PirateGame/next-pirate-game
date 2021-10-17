@@ -33,7 +33,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             tilesRemaining: tilesRemaining,
             currentTile: {},
             scoreHistory: {},
-            queue: {},
+            queue: [],
             state: 0,
             playerLimit: 12,
             randomiseOnly: false
