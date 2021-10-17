@@ -31,7 +31,7 @@ export default function WaitingRoom(){
                 });
             }
             else if (data && data.player) {
-                if (data.player[0].host) {
+                if (data.player.host) {
                     setHost(true)
                 } else { return false}
             }
@@ -60,7 +60,7 @@ export default function WaitingRoom(){
             else if (data) {
                 setGameState(data.game.state)
                 console.log(data)
-                if(data.game.state == 1) {
+                if(data.game.state == 2) {
                     router.push("/Game")
                 }
             }
@@ -71,16 +71,12 @@ export default function WaitingRoom(){
         })
     }
 
-    const startGame = async () => { 
-        connection.emit("startGame", playerName, gameName, token, (response: any) => {
-            if (response.status != "ok") {
-                toast(response.status, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            } else {
-                router.push('/Game')
-            }
-        })
+    const startGame = async () => {
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        connection = _socket
+        connection.emit("startGame", playerName, gameName, token)
+        router.push('/Game')
     }
 
     useEffect(() => {
@@ -110,7 +106,7 @@ export default function WaitingRoom(){
             setGameState(state)
         });
 
-        connection.on("gameStart", (state: number)=> {
+        connection.on("gameStart", () => {
             router.push("/Game")
         });
 

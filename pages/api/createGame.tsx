@@ -19,6 +19,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             order.push([x,y])
         }
     }
+    var tilesRemaining = {"tiles": order}
 
     var result = await prisma.game.create({
         data: {
@@ -29,7 +30,8 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             decisionTime: 30,
             tiles: tiles,
             turnNumber: 0,
-            tilesRemaining: order,
+            tilesRemaining: tilesRemaining,
+            currentTile: {},
             scoreHistory: {},
             queue: {},
             state: 0,

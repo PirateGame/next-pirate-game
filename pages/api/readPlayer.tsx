@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../lib/prisma'
 
 async function getPlayer(gameName: string, playerName: string){
-    var result = await prisma.player.findMany({
+    var result = await prisma.player.findFirst({
         where: {
             gameName: gameName,
             name: playerName

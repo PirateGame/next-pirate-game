@@ -54,7 +54,7 @@ export default function Game(){
             }
             else if (data) {
                 board.removeAll();
-                board.load(data.player[0].board)
+                board.load(data.player.board)
                 return
             }
             else {
@@ -63,14 +63,47 @@ export default function Game(){
         })
     }
 
-    const addMessage = (message: string, turnNum: number) => {
+    const getStats = async() => {
+        const body = {gameName, playerName}
+        await fetch('/api/readPlayer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data) {
+                console.log(data)
+                setMoney(data.player.money)
+                setBank(data.player.bank)
+                setMirror(data.player.mirror)
+                setShield(data.player.shield)
+                setShip(data.player.ship)
+                setCaptain(data.player.captain)
+                return
+            }
+            else {
+                console.log("error in Game.tsx getStats() failed")
+            }
+        })
+    }
+
+    const addMessage = (message: string) => {
         var div = document.createElement('div');
         div.innerHTML = '<h3 name="event">' + message + '</h3>';
-        if (turnNum % 2 ==0){
-            div.className = 'message'
-        } else {
-            div.className = 'message-dark'
-        }
+        // if (turnNum % 2 ==0){
+        //     div.className = 'message'
+        // } else {
+        //     div.className = 'message-dark'
+        // }
+
+        div.className = 'message title3'
         
         var chat = document.getElementById("chat")
         if(chat == null) {
@@ -104,6 +137,7 @@ export default function Game(){
         board = GridStack.init(boardoptions, document.getElementById("board")!)
         
         getBoard()
+        getStats()
         
 
         var _socket = io("http://localhost:1001")
@@ -124,6 +158,11 @@ export default function Game(){
                 });
             } 
         })
+
+        connection.on("event", (data: any)=> {
+            addMessage(data.title)
+            getStats()
+        });
     }, [])
 
     return (
