@@ -9,6 +9,7 @@ import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
 import 'gridstack/dist/h5/gridstack-dd-native';
+import { setHttpAgentOptions } from 'next/dist/server/config';
 
 
 export default function Game(){
@@ -24,8 +25,11 @@ export default function Game(){
 
     const [captain, setCaptain] = useState(-1)
     const [ship, setShip] = useState(-1)
-    const [question, setQuestion] = useState(false)
+    const [questionBool, setQuestionBool] = useState(false)
+    const [question, setQuestion] = useState("")
+    const [options, setOptions] = useState([])
     var board: any
+    var selectedOption: string = ""
     
     const gridHeight = parseInt(cookie.get("gridY")|| "0")
     const gridWidth = parseInt(cookie.get("gridX")|| "0")
@@ -123,6 +127,10 @@ export default function Game(){
         }
     }
 
+    const submitResponse = () => {
+        connection.emit("questionResponse", playerName, gameName, selectedOption)
+    }
+
     useEffect(() => {
         console.log("loading grids")
         
@@ -163,6 +171,12 @@ export default function Game(){
         connection.on("event", (data: any)=> {
             addMessage(data.title)
             getStats()
+        });
+
+        connection.on("question", (title: string, options: any)=> {
+            console.log("got question")
+            setQuestion(title)
+            setOptions(options)
         });
     }, [])
 
@@ -214,12 +228,28 @@ export default function Game(){
                 </div>
                 
                 <br />
-                {question ? (
+                {questionBool ? (
                     <div className="board-holder question" v-show="questionBool">
                         <div className="question-box">
-                            <h3> Question title </h3>
-                            <h4> extra question information </h4>
-                            <h4> show all options in a drop down with a submit button </h4>
+                            <h3> {question} </h3>
+                            <select
+                                value={selectedOption}
+                                >
+                                <option value="">Select the city</option>
+                                {options.map((option, key) => (
+                                    <option key={key} value={option}>
+                                    {option}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="h-1/6 p-5 m-auto text-center bg-opacity-25">
+                            <input
+                            type="button"
+                            value="Submit"
+                            className="big-button bg-index-2 bg-opacity-25 cursor-pointer"
+                            onClick={submitResponse}
+                            />
+                        </div>
                         </div>
                     </div>
                     ) : (
