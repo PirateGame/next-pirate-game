@@ -50,7 +50,9 @@ export default function DesignBoard(){
             //board has correct number of tiles
             var board: any = [];
             for (var tile in serializedData) {
-                board.push({"x":serializedData[tile].x, "y":serializedData[tile].y, "content":serializedData[tile].content, "id":serializedData[tile].id})
+                var x = serializedData[tile].x
+                var y = serializedData[tile].y
+                board.push({"x":x, "y":y, "content":serializedData[tile].content, "id": (y)*gridWidth + (x) })
             }
         }
 
@@ -110,8 +112,6 @@ export default function DesignBoard(){
         //{"A": 1, "B": 1, "C": 1, "D": 1, and so on.
         for (const [key, value] of Object.entries(tiles)) {
             for ( var i = 0; i < value; i++){
-                var id = idCounter
-                idCounter++
                 var content = key.toString()
                     
                 if (positions) {
@@ -122,9 +122,9 @@ export default function DesignBoard(){
                     //remove chosen position from list
                     positionValues.splice(index, 1)
 
-                    board.push({"x":x, "y":y, "w":1, "h":1, "id":id, "content":content, "noResize": true})
+                    board.push({"x":x, "y":y, "w":1, "h":1, "content":content, "noResize": true})
                 } else {
-                    board.push({"id":id, "content":content, "noResize": true})
+                    board.push({"content":content, "noResize": true})
                 }
             }
         }

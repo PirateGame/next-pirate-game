@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from "socket.io-client";
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
@@ -33,7 +33,7 @@ export default function Game(){
     
     const gridHeight = parseInt(cookie.get("gridY")|| "0")
     const gridWidth = parseInt(cookie.get("gridX")|| "0")
-    var connection: any
+    const [connection, setConnection] = useState<Socket>()
 
     if (gridWidth != 0){
         var gridclass: string = "grid-stack grid-stack-" + gridWidth
@@ -127,8 +127,80 @@ export default function Game(){
         }
     }
 
+    const getDoneTiles = async() => {
+        const body = {gameName, playerName}
+        await fetch('/api/readGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data) {
+                var tilesRemaining = data.game.tilesRemaining
+
+                var tilesDone: number[] = []
+                for (var i = 0; i < gridWidth * gridHeight; i++){
+                    if (tilesRemaining.indexOf(i) == -1)
+                        tilesDone.push(i)
+                }
+
+                for (var i = 0; i < gridWidth * gridHeight; i++){
+                    var tile = board.engine.nodes.find(n => n.id === tilesDone[i]).el
+                    tile.children[0].className = "old-square" 
+                }
+
+
+                return
+            }
+            else {
+                console.log("error in Game.tsx getStats() failed")
+            }
+        })
+    }
+
+    const getCurrentTile = async() => {
+        const body = {gameName, playerName}
+        await fetch('/api/readGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data) {
+                var currentTile = data.game.currentTile
+
+                console.log(currentTile)
+                
+                var latestTile = board.engine.nodes.find(n => n.id === currentTile).el
+                latestTile.children[0].className = "current-square"
+
+                return
+            }
+            else {
+                console.log("error in Game.tsx getStats() failed")
+            }
+        })
+    }
+
     const submitResponse = () => {
-        connection.emit("questionResponse", playerName, gameName, selectedOption)
+        setQuestionBool(false)
+        if (connection) {
+            connection.emit("questionResponse", playerName, gameName, selectedOption)
+        }
     }
 
     useEffect(() => {
@@ -151,16 +223,16 @@ export default function Game(){
 
         var _socket = io("http://localhost:1001")
         if (!_socket) return
-        connection = _socket
+        setConnection(_socket)
 
-        if (!connection) {
+        if (!_socket) {
             toast("not connected to server", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
             return
         }
 
-        connection.emit("join", playerName, gameName, token, (response: any) => {
+        _socket.emit("join", playerName, gameName, token, (response: any) => {
             if (response.status == false) {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT
@@ -168,13 +240,16 @@ export default function Game(){
             } 
         })
 
-        connection.on("event", (data: any)=> {
+        _socket.on("event", (data: any)=> {
             addMessage(data.title)
             getStats()
+            getDoneTiles()
+            getCurrentTile()
         });
 
-        connection.on("question", (title: string, options: any)=> {
+        _socket.on("question", (title: string, options: any)=> {
             console.log("got question")
+            setQuestionBool(true)
             setQuestion(title)
             setOptions(options)
         });
@@ -235,7 +310,7 @@ export default function Game(){
                             <select
                                 value={selectedOption}
                                 >
-                                <option value="">Select the city</option>
+                                <option value="">Choose</option>
                                 {options.map((option, key) => (
                                     <option key={key} value={option}>
                                     {option}

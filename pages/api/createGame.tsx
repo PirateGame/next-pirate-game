@@ -13,13 +13,10 @@ async function findGame(gameName: string){
 
 async function createGame(gameName: string, gridSizex: number, gridSizey: number, tiles: any) {
 
-    var order = []
-    for(var x = 0; x < gridSizex; x++) {
-        for(var y = 0; y < gridSizey; y++) {
-            order.push([x,y])
-        }
+    var tilesRemaining = []
+    for(var i = 0; i < gridSizex * gridSizey; i++) {
+        tilesRemaining.push(i)
     }
-    var tilesRemaining = {"tiles": order}
 
     var result = await prisma.game.create({
         data: {
@@ -31,7 +28,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             tiles: tiles,
             turnNumber: 0,
             tilesRemaining: tilesRemaining,
-            currentTile: {},
+            currentTile: -1,
             scoreHistory: {},
             queue: [],
             state: 0,

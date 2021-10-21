@@ -34,7 +34,7 @@ model game {
   turnNumber     Int
   tiles          Json
   tilesRemaining Json
-  currentTile   Json
+  currentTile    Int
   scoreHistory   Json
   queue          Json
   playerLimit    Int
