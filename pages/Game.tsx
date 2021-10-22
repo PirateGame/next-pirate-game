@@ -151,9 +151,9 @@ export default function Game(){
                         tilesDone.push(i)
                 }
 
-                for (var i = 0; i < gridWidth * gridHeight; i++){
-                    var tile = board.engine.nodes.find(n => n.id === tilesDone[i]).el
-                    tile.children[0].className = "old-square" 
+                for (var i = 0; i < tilesDone.length; i++){
+                    var tile = board.engine.nodes.find((n: any) => n.id === tilesDone[i])
+                    tile.el.children[0].className = "old-square" 
                 }
 
 
@@ -183,10 +183,11 @@ export default function Game(){
             else if (data) {
                 var currentTile = data.game.currentTile
 
-                console.log(currentTile)
+                var latestTile = board.engine.nodes.find((n: any) => n.id === currentTile)
+                console.log(latestTile.el.children[0])
+                latestTile.el.children[0].className = "current-square"
+
                 
-                var latestTile = board.engine.nodes.find(n => n.id === currentTile).el
-                latestTile.children[0].className = "current-square"
 
                 return
             }
