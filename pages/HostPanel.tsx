@@ -8,7 +8,7 @@ import { io, Socket } from "socket.io-client";
 
 
 export default function HostPanel(){
-    const [decisionTime, setDecisionTime] = useState("30")
+    const [decisionTime, setDecisionTime] = useState("45")
     const [randomiseOnly, setRandomiseOnly] = useState(false)
     const [clientList, setClientList] = useState([])
     const [playerLimit, setPlayerLimit] = useState("20")
@@ -112,7 +112,7 @@ export default function HostPanel(){
                                     <input
                                         type="range"
                                         min="10"
-                                        max="60"
+                                        max="120"
                                         step="5"
                                         value={decisionTime}
                                         onChange={e => setDecisionTime(e.target.value)}

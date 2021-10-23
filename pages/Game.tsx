@@ -29,7 +29,7 @@ export default function Game(){
     const [question, setQuestion] = useState("")
     const [options, setOptions] = useState([])
     var board: any
-    var selectedOption: string = ""
+    const [selectedOption, setSelectedOption] = useState("")
     
     const gridHeight = parseInt(cookie.get("gridY")|| "0")
     const gridWidth = parseInt(cookie.get("gridX")|| "0")
@@ -241,11 +241,12 @@ export default function Game(){
             } 
         })
 
-        _socket.on("event", (data: any)=> {
+        _socket.on("event", async(data: any)=> {
             addMessage(data.title)
             getStats()
-            getDoneTiles()
-            getCurrentTile()
+            setQuestionBool(false)
+            await getDoneTiles()
+            await getCurrentTile()
         });
 
         _socket.on("question", (title: string, options: any)=> {
@@ -310,6 +311,7 @@ export default function Game(){
                             <h3> {question} </h3>
                             <select
                                 value={selectedOption}
+                                onChange={e => setSelectedOption(e.target.value)}
                                 >
                                 <option value="">Choose</option>
                                 {options.map((option, key) => (

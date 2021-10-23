@@ -24,7 +24,7 @@ async function createGame(gameName: string, gridSizex: number, gridSizey: number
             sizeX: gridSizex,
             sizeY: gridSizey,
             quickPlay: false,
-            decisionTime: 30,
+            decisionTime: 45,
             tiles: tiles,
             turnNumber: 0,
             tilesRemaining: tilesRemaining,
