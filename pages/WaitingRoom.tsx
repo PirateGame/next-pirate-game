@@ -5,7 +5,6 @@ import cookie from 'js-cookie'
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from "socket.io-client";
 import router from 'next/router';
-const dotenv = require('dotenv');
 
 
 export default function WaitingRoom(){
@@ -72,7 +71,7 @@ export default function WaitingRoom(){
     }
 
     const startGame = async () => {
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         _socket.emit("startGame", playerName, gameName, token)
         router.push('/Game')
