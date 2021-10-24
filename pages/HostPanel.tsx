@@ -98,7 +98,7 @@ export default function HostPanel(){
         _socket.on("playerListUpdated", () => {
             getPlayers()
         })
-    }, [gameName, getPlayers, playerName, token])
+    }, [gameName, playerName, token])
 
     return (
         <Layout>
