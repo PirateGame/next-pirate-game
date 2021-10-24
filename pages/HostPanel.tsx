@@ -48,7 +48,7 @@ export default function HostPanel(){
     }
 
     const getPlayers = async () => {
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         _socket.emit("getPlayerList", playerName, gameName, (response: any) => {
             setClientList(response.playerList)
@@ -63,7 +63,7 @@ export default function HostPanel(){
     }
     
     const addAI = async () =>{
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         _socket.emit("addAI", token, (response: any) => {
             if (response.status != "ok") {
@@ -75,7 +75,7 @@ export default function HostPanel(){
     }
 
     useEffect(() => {
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         console.log(_socket)
 

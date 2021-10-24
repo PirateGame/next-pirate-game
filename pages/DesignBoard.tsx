@@ -57,7 +57,7 @@ export default function DesignBoard(){
             }
         }
 
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         var connection = _socket
 

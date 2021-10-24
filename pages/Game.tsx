@@ -222,7 +222,7 @@ export default function Game(){
         getStats()
         
 
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         setConnection(_socket)
 

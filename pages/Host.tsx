@@ -51,7 +51,7 @@ export default function Host(){
                         toast("connecting to server", {
                             position: toast.POSITION.BOTTOM_RIGHT
                         });
-                        const socket = io("http://localhost:1001")
+                        const socket = io(process.env.SOCKET_URL as string)
                         
                         socket.on("connect", () => {
                             toast("Registering with server", {

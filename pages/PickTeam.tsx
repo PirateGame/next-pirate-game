@@ -86,7 +86,7 @@ export default function PickTeam(){
         //read from database if randomise only.
         //push to waiting room or design board.
 
-        var _socket = io("http://localhost:1001")
+        var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
         console.log(_socket)
         var connection = _socket //this does work
