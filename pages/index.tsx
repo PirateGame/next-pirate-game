@@ -32,9 +32,6 @@ export default function Index(){
                 <h1 className="bottomText1">v3</h1>
                 <h1 className="bottomText1">Developed by</h1>
                 <h1 className="bottomText2">Alex Pegg</h1>
-                <a href="https://ko-fi.com/pirategameonline" target="_blank" rel="noreferrer">
-                    <Image className="w-5/6 h-auto m-auto" src="/images/ko-fi.png" alt=""/>
-                </a>
                 </div>
             </div>
         </Layout>
