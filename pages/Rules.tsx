@@ -50,7 +50,7 @@ export default function Rules(){
                 <br />
                 2. Barnacle
                 <br />
-                3. Queen Anne's Revenge
+                3. Queen Anne&#39;s Revenge
                 <br />
                 </h3>
                 <h2>Task 2: Draw Your Treasure Map</h2>
@@ -60,14 +60,14 @@ export default function Rules(){
                 contain the same set of treasures and booby traps as the other buccaneers undertaking this adventure with you, however they will all be unique, as it is up to you to decide
                 which squares in your grid will contain each type of space within the specific time limit at the start of the game.
                 <br /><br />
-                After you finish filling in your treasure map, check you're happy with it, as once you've submitted it, you cannot change it for the rest of the game. Once submitted, join
+                After you finish filling in your treasure map, check you&#39;re happy with it, as once you&#39;ve submitted it, you cannot change it for the rest of the game. Once submitted, join
                 your captain on the ship both previously selected and set sail on your quest to conquer the seven seas!
                 <br /><br />
                 </h3>
                 <h2>Task 3: Collect Precious Gold Coins Whilst Pillaging Unsuspecting Scallywags</h2>
                 <h3>
                 <br />
-                You've got your captain, your ship and your treasure map, and are currently sailing the seas in search of your well deserved treasure, but there's still one big question: where
+                You&#39;ve got your captain, your ship and your treasure map, and are currently sailing the seas in search of your well deserved treasure, but there&#39;s still one big question: where
                 should you search first for the loot? The game will consist of the same number of turns as squares on your treasure map, and on each turn you will move through 3 phases,
                 which are:
                 <br />
@@ -83,33 +83,33 @@ export default function Rules(){
                 <br />
                 3. Pirates who landed on booby traps complete the action on that square
                 <br />
-                If any pirates land on any of the squares in their treasure map listed within the 'Booby Trap Pack' (see Task 2), they have an action to complete during their turn. There
+                If any pirates land on any of the squares in their treasure map listed within the &#39;Booby Trap Pack&#39; (see Task 2), they have an action to complete during their turn. There
                 are 3 different types of action: Public Passive, Public Active, and Private.
                 <br />
-                The first type of action, 'Public Passive', consists of the Rob, Kill, Present, Swap and Skull and Crossbones squares. If any pirates arrive at these spaces, their names
+                The first type of action, &#39;Public Passive&#39;, consists of the Rob, Kill, Present, Swap and Skull and Crossbones squares. If any pirates arrive at these spaces, their names
                 will be put into an order at random and will complete their actions accordingly.
                 <br />
-                If a pirate lands on a 'Rob' square, they choose another pirate and take all of their gold coins from their stash
+                If a pirate lands on a &#39;Rob&#39; square, they choose another pirate and take all of their gold coins from their stash
                 <br />
-                If a pirate lands on a 'Kill' square, they choose another pirate and destroy all of their gold coins in their stash AND their treasure chest
+                If a pirate lands on a &#39;Kill&#39; square, they choose another pirate and destroy all of their gold coins in their stash AND their treasure chest
                 <br />
-                If a pirate lands on a 'Present' square, they choose another pirate and give theim 1000 of their OWN gold coins (or as much as they can)
+                If a pirate lands on a &#39;Present&#39; square, they choose another pirate and give theim 1000 of their OWN gold coins (or as much as they can)
                 <br />
-                If a pirate lands on a 'Swap' square, they choose another pirate and swap their stash of gold coins with them
+                If a pirate lands on a &#39;Swap&#39; square, they choose another pirate and swap their stash of gold coins with them
                 <br />
-                If a pirate lands on a 'Skull and Crossbones' square, they choose either a pirate captain or a pirate ship, and all the pirates in their captain or on that ship have all their
+                If a pirate lands on a &#39;Skull and Crossbones&#39; square, they choose either a pirate captain or a pirate ship, and all the pirates in their captain or on that ship have all their
                 gold coins in their stash destroyed
                 <br />
             
-                These actions are 'Public Passive' actions, as whatever you choose will be shown publicly to all other pirates, including the amounts that you steal and swap with other
+                These actions are &#39;Public Passive&#39; actions, as whatever you choose will be shown publicly to all other pirates, including the amounts that you steal and swap with other
                 pirates, but you only do them when told to, so are passive actions.
                 <br />
-                The next action, Choose Next Square, is a 'Public Active' action, as when this square is selected, you have to declare it as quickly as you can by clicking on it. This is
+                The next action, Choose Next Square, is a &#39;Public Active&#39; action, as when this square is selected, you have to declare it as quickly as you can by clicking on it. This is
                 because if any other pirates have also landed on their Choose Next Square place on their map, it is the first one to declare it who gets to use it, and any others will be
-                lost! If a pirate lands on a 'Choose Next Square' square, they choose the next square after all other public actions have been completed, instead of it being picked at
+                lost! If a pirate lands on a &#39;Choose Next Square&#39; square, they choose the next square after all other public actions have been completed, instead of it being picked at
                 random, and you can only choose squares on your map that have not been visited yet.
                 <br />
-                The final type of actions are 'Private' actions, as when these are landed on,
+                The final type of actions are &#39;Private&#39; actions, as when these are landed on,
                 </h3>
             </div>
                 </div>

@@ -15,34 +15,6 @@ export default function HostPanel(){
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const token = cookie.get("token")
-    let connection: any = null
-
-    useEffect(() => {
-        var _socket = io("http://localhost:1001")
-        if (!_socket) return
-        console.log(_socket)
-        connection = _socket //this does work
-
-        if (!connection) {
-            toast("not connected to server", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-            return
-        }
-        getPlayers()
-
-        connection.emit("join", playerName, gameName, token, (response: any) => {
-            if (response.status == false) {
-                toast("couldn't join server room.", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            } 
-        })
-
-        connection.on("playerListUpdated", () => {
-            getPlayers()
-        })
-    }, [])
     
 
     const startGame = () => { 
@@ -76,7 +48,9 @@ export default function HostPanel(){
     }
 
     const getPlayers = async () => {
-        connection.emit("getPlayerList", playerName, gameName, (response: any) => {
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        _socket.emit("getPlayerList", playerName, gameName, (response: any) => {
             setClientList(response.playerList)
         });
     }
@@ -89,7 +63,9 @@ export default function HostPanel(){
     }
     
     const addAI = async () =>{
-        connection.emit("addAI", token, (response: any) => {
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        _socket.emit("addAI", token, (response: any) => {
             if (response.status != "ok") {
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT
@@ -97,6 +73,32 @@ export default function HostPanel(){
             } 
         });
     }
+
+    useEffect(() => {
+        var _socket = io("http://localhost:1001")
+        if (!_socket) return
+        console.log(_socket)
+
+        if (!_socket) {
+            toast("not connected to server", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+        getPlayers()
+
+        _socket.emit("join", playerName, gameName, token, (response: any) => {
+            if (response.status == false) {
+                toast("couldn't join server room.", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            } 
+        })
+
+        _socket.on("playerListUpdated", () => {
+            getPlayers()
+        })
+    }, [gameName, getPlayers, playerName, token])
 
     return (
         <Layout>

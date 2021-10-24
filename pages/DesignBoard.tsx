@@ -4,6 +4,7 @@ import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
 import { io, Socket } from "socket.io-client";
+import Script from 'next/script'
 
 
 import 'gridstack/dist/h5/gridstack-dd-native';
@@ -164,7 +165,7 @@ export default function DesignBoard(){
 
     return (
         <Layout>
-            <script src="node_modules/gridstack/dist/gridstack-h5.js"></script>
+            <Script src="node_modules/gridstack/dist/gridstack-h5.js"></Script>
             <div className="bg-gamepage">
                 <h2 className="title2">Drag and drop the tiles to create your board.</h2>
                 <div className="flex-container w-full h-1/5">

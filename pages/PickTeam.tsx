@@ -1,5 +1,6 @@
 import Router from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
@@ -14,18 +15,7 @@ export default function PickTeam(){
     const [ship, setShip] = useState(-1)
     const [randomiseOnly, setRandomiseOnly] = useState(false)
 
-    useEffect(()=>{
-        if (captain == -1) return
-        console.log(captain)
-        isRandomiseOnly()
-        showShip()
-    },[captain])
-
-    useEffect(()=>{
-        if (ship == -1) return
-        console.log(ship)
-        submit()
-    },[ship])
+    
 
     const showShip = () => { 
         var x = document.getElementById("captain");
@@ -123,6 +113,19 @@ export default function PickTeam(){
         })
     }
 
+    useEffect(()=>{
+        if (captain == -1) return
+        console.log(captain)
+        isRandomiseOnly()
+        showShip()
+    },[captain])
+
+    useEffect(()=>{
+        if (ship == -1) return
+        console.log(ship)
+        submit()
+    },[ship])
+
     return (
         <Layout>
             <div className="bg-gamepage">
@@ -138,7 +141,7 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setCaptain(0)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
                                 <div className="title3"> captain Hook </div>
                             </label>
                         </div>
@@ -149,7 +152,7 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setCaptain(1)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
                                 <div className="title3"> Blackbeard </div>
                             </label>
                         </div>
@@ -160,7 +163,7 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setCaptain(2)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
                                 <div className="title3"> Jack Sparrow </div>
                             </label>
                         </div>
@@ -177,7 +180,7 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setShip(0)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
                                 <div className="title3"> Jolly Rodger </div>
                             </label>
                         </div>
@@ -188,7 +191,7 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setShip(1)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
                                 <div className="title3"> Barnacle </div>
                             </label>
                         </div>
@@ -199,8 +202,8 @@ export default function PickTeam(){
                                     className="radio-hidden"
                                     onClick={e => setShip(2)}
                                 />
-                                <img src="/images/placeholder.png" height="150" width="250"/>
-                                <div className="title3"> Ocean's Raider </div>
+                                <Image src="/images/placeholder.png" height="150" width="250" alt=""/>
+                                <div className="title3"> Ocean&#39;s Raider </div>
                             </label>
                         </div>
                     </div>

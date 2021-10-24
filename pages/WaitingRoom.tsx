@@ -13,7 +13,6 @@ export default function WaitingRoom(){
     const [host, setHost] = useState(false)
     const [gameState, setGameState] = useState(0)
     const token = cookie.get("token")
-    var connection: any
 
     const isHost = async () => {
         const body = {gameName, playerName}
@@ -74,8 +73,7 @@ export default function WaitingRoom(){
     const startGame = async () => {
         var _socket = io("http://localhost:1001")
         if (!_socket) return
-        connection = _socket
-        connection.emit("startGame", playerName, gameName, token)
+        _socket.emit("startGame", playerName, gameName, token)
         router.push('/Game')
     }
 
@@ -85,16 +83,15 @@ export default function WaitingRoom(){
 
         var _socket = io("http://localhost:1001")
         if (!_socket) return
-        connection = _socket
 
-        if (!connection) {
+        if (!_socket) {
             toast("not connected to server", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
             return
         }
 
-        connection.emit("join", playerName, gameName, token, (response: any) => {
+        _socket.emit("join", playerName, gameName, token, (response: any) => {
             if (response.status == false) {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT
@@ -102,20 +99,20 @@ export default function WaitingRoom(){
             } 
         })
 
-        connection.on("gameStateUpdate", (state: number)=> {
+        _socket.on("gameStateUpdate", (state: number)=> {
             setGameState(state)
         });
 
-        connection.on("gameStart", () => {
+        _socket.on("gameStart", () => {
             router.push("/Game")
         });
 
-    }, [])
+    }, [gameName, playerName, token])
     
     return (
         <Layout>
             <div className="bg-generic">
-                <h1 className="title1">You're In!</h1>
+                <h1 className="title1">You&#39;re In!</h1>
                 <h2 className="title2">Please wait while the host starts the game.</h2>
                 <h2 className="title2"> game state: {gameState.toString()} </h2>
                 <h2 className="title2"> Host: {host.toString()} </h2>
