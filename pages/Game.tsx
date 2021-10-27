@@ -198,6 +198,12 @@ export default function Game(){
     }
 
     const submitResponse = () => {
+        if (selectedOption == "") {
+            toast("please select a valid option", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
         setQuestionBool(false)
         if (connection) {
             connection.emit("questionResponse", playerName, gameName, selectedOption)
@@ -313,7 +319,7 @@ export default function Game(){
                                 value={selectedOption}
                                 onChange={e => setSelectedOption(e.target.value)}
                                 >
-                                <option value="">Choose</option>
+                                <option disabled value="">Choose your option</option>
                                 {options.map((option, key) => (
                                     <option key={key} value={option}>
                                     {option}
