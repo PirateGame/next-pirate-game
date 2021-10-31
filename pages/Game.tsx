@@ -253,6 +253,9 @@ export default function Game(){
             setQuestionBool(false)
             await getDoneTiles()
             await getCurrentTile()
+            if (data.title == "Game Over.") {
+                router.push("/Leaderboard")
+            }
         });
 
         _socket.on("question", (title: string, options: any)=> {
@@ -321,7 +324,7 @@ export default function Game(){
                                 >
                                 <option disabled value="">Choose your option</option>
                                 {options.map((option, key) => (
-                                    <option key={key} value={option}>
+                                    <option key={key} value={key}>
                                     {option}
                                     </option>
                                 ))}

@@ -107,7 +107,7 @@ export default function DesignBoard(){
                 positionValues.push([x,y])
             }
         }
-
+        
         //loop through tiles array
         //{"A": 1, "B": 1, "C": 1, "D": 1, and so on.
         for (const [key, value] of Object.entries(tiles)) {

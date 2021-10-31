@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.1.1",
+    "chart.js": "^3.6.0",
     "gridstack": "^4.2.7",
     "js-cookie": "^3.0.0",
     "next": "11.1.0",

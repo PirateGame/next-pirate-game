@@ -107,7 +107,7 @@ export default function PickTeam(){
                 if (randomiseOnly) {
                     Router.push("/WaitingRoom")
                 } else {
-                    Router.push ("/DesignBoard")
+                    Router.push("/DesignBoard")
                 }
             }
         })
