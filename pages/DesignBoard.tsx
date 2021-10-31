@@ -103,11 +103,10 @@ export default function DesignBoard(){
         var positionValues: any = []
 
         for (var x = 0; x < gridWidth; x++){
-            for (var y = 0; y < gridWidth; y++){
+            for (var y = 0; y < gridHeight; y++){
                 positionValues.push([x,y])
             }
         }
-        var idCounter = 0
 
         //loop through tiles array
         //{"A": 1, "B": 1, "C": 1, "D": 1, and so on.
@@ -129,7 +128,7 @@ export default function DesignBoard(){
                 }
             }
         }
-          return board
+        return board
     }
 
     useEffect(() => {
