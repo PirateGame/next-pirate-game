@@ -93,6 +93,7 @@ export default function Leaderboard(){
             type: 'line',
             data: {
                 labels: labels,
+                // @ts-ignore some weird error about types that I don't care about.
                 datasets: datasets,
             },
             options: {
