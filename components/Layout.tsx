@@ -29,6 +29,10 @@ export default function Layout({
         />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9788700934934058"
+          crossOrigin="anonymous">
+            
+          </script>
         </Head>
         <ToastContainer />
         <main>{children}</main>
