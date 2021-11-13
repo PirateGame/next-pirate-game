@@ -120,7 +120,21 @@ export default function Host(){
         max200 -= minimumInputs[3]
 
         var tiles: { [key: string]: any } = {}
-        var letters = ["A","B","C","D","E","F","G","H","I","J","K"]
+        //var letters = ["A","B","C","D","E","F","G","H","I","J","K"]
+        var letters = [
+            "Steal",
+            "Kill",
+            "Present",
+            "Skull and Crossbones",
+            "Swap",
+            "Choose Next Tile",
+            "Shield",
+            "Mirror",
+            "Bomb",
+            "Double",
+            "Bank"
+        ]
+
         for (let i = 0; i < letters.length; i++){
             tiles[letters[i]] = actionCount
         }

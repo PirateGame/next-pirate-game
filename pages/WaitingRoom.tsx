@@ -112,10 +112,9 @@ export default function WaitingRoom(){
     return (
         <Layout>
             <div className="bg-generic">
+                <h1 className="title1 invisible">-</h1>
                 <h1 className="title1">You&#39;re In!</h1>
                 <h2 className="title2">Please wait while the host starts the game.</h2>
-                <h2 className="title2"> game state: {gameState.toString()} </h2>
-                <h2 className="title2"> Host: {host.toString()} </h2>
 
                 <div className="flex-vertical-box h-3/5">
                     <div className="flex-child h-1/4 text-center">

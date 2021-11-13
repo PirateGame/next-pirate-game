@@ -324,7 +324,7 @@ export default function Game(){
                                 >
                                 <option disabled value="">Choose your option</option>
                                 {options.map((option, key) => (
-                                    <option key={key} value={key}>
+                                    <option key={key} value={option}>
                                     {option}
                                     </option>
                                 ))}
