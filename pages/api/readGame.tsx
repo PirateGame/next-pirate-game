@@ -11,7 +11,7 @@ async function getGame(gameName: string){
 }
 
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const main = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         var gameName = req.body.gameName
         var result = await getGame(gameName)
@@ -25,3 +25,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
 }
+
+export default main

@@ -7,7 +7,7 @@ import { io, Socket } from "socket.io-client";
 import router from 'next/router';
 
 
-export default function WaitingRoom(){
+const WaitingRoom = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const [host, setHost] = useState(false)
@@ -148,3 +148,5 @@ export default function WaitingRoom(){
         </Layout>
     )
 }
+
+export default WaitingRoom

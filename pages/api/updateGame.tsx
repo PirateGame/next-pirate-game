@@ -16,7 +16,7 @@ async function updateGame(gameName: string, decisionTime: number, randomiseOnly:
 }
 
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const main = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         var gameName = req.body.gameName
         var decisionTime = parseInt(req.body.decisionTime)
@@ -33,3 +33,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
 }
+
+export default main

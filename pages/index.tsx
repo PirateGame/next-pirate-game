@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Layout from '../components/Layout'
 
 
-export default function Index(){
+const Index = () => {
     return (
         <Layout>
             <div className="bg-generic">
@@ -37,3 +37,5 @@ export default function Index(){
         </Layout>
     )
 }
+
+export default Index

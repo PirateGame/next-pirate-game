@@ -12,7 +12,7 @@ async function getPlayer(gameName: string, playerName: string){
 }
 
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const main = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         var gameName = req.body.gameName
         var playerName = req.body.playerName
@@ -27,3 +27,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
 }
+
+export default main

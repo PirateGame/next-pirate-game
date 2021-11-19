@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Layout from '../components/Layout'
 
 
-export default function Rules(){
+const Rules = () => {
     return (
         <Layout>
             <div className="bg-generic">
@@ -116,3 +116,5 @@ export default function Rules(){
         </Layout>
     )
 }
+
+export default Rules

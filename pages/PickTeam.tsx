@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { io, Socket } from "socket.io-client";
 
 
-export default function PickTeam(){
+const PickTeam = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const [captain, setCaptain] = useState(-1)
@@ -212,3 +212,5 @@ export default function PickTeam(){
         </Layout>
     )
 }
+
+export default PickTeam

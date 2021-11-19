@@ -11,7 +11,7 @@ interface data {
     datasets: string[]
 }
 
-export default function Leaderboard(){
+const Leaderboard = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const [datasets, setDatasets] = useState()
@@ -149,3 +149,5 @@ export default function Leaderboard(){
         </Layout>
     )
 }
+
+export default Leaderboard

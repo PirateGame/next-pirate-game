@@ -12,7 +12,7 @@ import 'gridstack/dist/h5/gridstack-dd-native';
 import { setHttpAgentOptions } from 'next/dist/server/config';
 
 
-export default function Game(){
+const Game = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const [gameState, setGameState] = useState(1)
@@ -346,3 +346,5 @@ export default function Game(){
         </Layout>
     )
 }
+
+export default Game

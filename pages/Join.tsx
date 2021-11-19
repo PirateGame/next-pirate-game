@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import { toast } from 'react-toastify';
 
 
-export default function Join(){
+const Join = () => {
     const [gameName, setGameName] = useState("")
     const [playerName, setPlayerName] = useState("")
 
@@ -98,3 +98,5 @@ export default function Join(){
         </Layout>
     )
 }
+
+export default Join

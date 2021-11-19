@@ -7,7 +7,7 @@ import cookie from 'js-cookie'
 import { io, Socket } from "socket.io-client";
 
 
-export default function HostPanel(){
+const HostPanel = () => {
     const [decisionTime, setDecisionTime] = useState("45")
     const [randomiseOnly, setRandomiseOnly] = useState(false)
     const [clientList, setClientList] = useState([])
@@ -183,3 +183,5 @@ export default function HostPanel(){
         </Layout>
     )
 }
+
+export default HostPanel

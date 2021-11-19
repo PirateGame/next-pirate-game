@@ -8,7 +8,7 @@ import router from 'next/router';
 import { toast } from 'react-toastify';
 
 
-export default function Host(){
+const Host = () => {
     const [gameName, setGameName] = useState("")
     var [Sizex, setX] = useState("7")
     var [Sizey, setY] = useState("7")
@@ -207,3 +207,5 @@ export default function Host(){
         </Layout>
     )
 }
+
+export default Host

@@ -17,7 +17,7 @@ import router from 'next/router';
 import { toast } from 'react-toastify';
 
 
-export default function DesignBoard(){
+const DesignBoard = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const gridHeight = parseInt(cookie.get("gridY")|| "0")
@@ -212,3 +212,5 @@ export default function DesignBoard(){
         </Layout>
     )
 }
+
+export default DesignBoard
