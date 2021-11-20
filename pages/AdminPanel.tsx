@@ -9,8 +9,13 @@ import { ToastContainer, toast } from 'react-toastify'
 const AdminPanel = () => {
 
     const [data, setData] = useState<any[]>()
+    const [games, setGames] = useState<any[]>()
+    const [players, setPlayers] = useState<any[]>()
+    const [timer, setTimer] = useState<any>()
 
     const getGames = async() => {
+        console.log("getting new data")
+        setGames([])
         var res: any[] = []
         await fetch('/api/readGames', {
             method: 'POST',
@@ -25,31 +30,10 @@ const AdminPanel = () => {
                 });
             }
             else if (data && data.error == false) {
-                //do stuff here
-                var games = data.games
-                for(var i in games) {
-                    console.log(games[i])
-                    //var numPlayers = Object.keys(games[i].scoreHistory[1]).length
-                    var numPlayers = "?"
-                    //could see how many players have gameName
-                    // do a / then max numer of players.
-                    console.log("here")
-                    var gameName = games[i].name
-                    var state = games[i].state
-                    var maxPlayers = games[i].playerLimit
-                    var gridx = games[i].sizeX
-                    var gridy = games[i].sizeY
-                    var turn = games[i].turnNumber
-                    res.push({
-                        gameName: gameName,
-                        numPlayers: numPlayers + "/" + maxPlayers,
-                        grid: gridx + "," + gridy,
-                        turn: turn + "/" + gridx * gridy,
-                        state: state,
-                        id: gameName
-                        })
-                }
-                setData(res)
+                await setGames(data.games)
+                await getPlayers()
+                await generateData()
+                Router.reload()
                 return
             }
             else {
@@ -58,8 +42,85 @@ const AdminPanel = () => {
         })
     }
 
-    const deleteGame = (gameName: string) => {
-        console.log(gameName)
+    const getPlayers = async() => {
+        var res: any[] = []
+        await fetch('/api/readPlayers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'}
+        })
+        .then((r) => r.json())
+        .then(async (data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data && data.error == false) {
+                await setPlayers(data.players)
+                return
+            }
+            else {
+                console.log("error in AdminPanel.tsx getPlayers() failed")
+            }
+        })
+    }
+
+    const generateData = () => {
+        if (games == undefined || players == undefined) {
+            return
+        }
+        var res: any[] = []
+        var i: any
+        for(i in games) {
+            console.log(games[i])
+            //var numPlayers = Object.keys(games[i].scoreHistory[1]).length
+            var numPlayers = "?"
+            //could see how many players have gameName
+            // do a / then max numer of players.
+            console.log("here")
+            var gameName = games[i].name
+            var state = games[i].state
+            var maxPlayers = games[i].playerLimit
+            var gridx = games[i].sizeX
+            var gridy = games[i].sizeY
+            var turn = games[i].turnNumber
+            res.push({
+                gameName: gameName,
+                numPlayers: numPlayers + "/" + maxPlayers,
+                grid: gridx + "," + gridy,
+                turn: turn + "/" + gridx * gridy,
+                state: state,
+                id: gameName
+                })
+        }
+        setData(res)
+    }
+
+    const deleteGame = async(gameName: string) => {
+        var res: any[] = []
+        const body = {gameName}
+        await fetch('/api/deleteGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then(async (data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data && data.error == false) {
+                return
+            }
+            else {
+                console.log("error in AdminPanel.tsx getPlayers() failed")
+            }
+        })
+        getGames()
     }
 
     const modifyGame = (gameName: string) => {
@@ -67,12 +128,10 @@ const AdminPanel = () => {
     }
 
     useEffect(() => {
-        if (data == undefined) {
-            getGames()
-            return
+        if (timer == undefined) {
+            setTimer(setInterval(getGames, 5000))
         }
-    }, [data])
-
+    })
 
     const styleConfig = {
         icons: {
@@ -94,20 +153,20 @@ const AdminPanel = () => {
         { id: 'state', sortAscending: true }
     ];
 
-    const Actions = (value:string) => {
+    const Actions = (value:any) => {
         return (
             <div>
             <input
                 className="p-1 m-1"
                 type="button"
                 value="edit"
-                onClick={e => modifyGame(value)}
+                onClick={e => modifyGame(value.value)}
             />
             <input
                 className="p-1 m-1"
                 type="button"
                 value="remove"
-                onClick={e => deleteGame(value)}
+                onClick={e => deleteGame(value.value)}
             />
         </div>
         )
