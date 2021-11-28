@@ -184,7 +184,6 @@ const Game = () => {
                 var currentTile = data.game.currentTile
 
                 var latestTile = board.engine.nodes.find((n: any) => n.id === currentTile)
-                console.log(latestTile.el.children[0])
                 latestTile.el.children[0].className = "current-square"
 
                 
@@ -204,6 +203,7 @@ const Game = () => {
             });
             return
         }
+        console.log(selectedOption)
         setQuestionBool(false)
         if (connection) {
             connection.emit("questionResponse", playerName, gameName, selectedOption)
@@ -261,6 +261,7 @@ const Game = () => {
         _socket.on("question", (title: string, options: any)=> {
             console.log("got question")
             setQuestionBool(true)
+            setSelectedOption("")
             setQuestion(title)
             setOptions(options)
         });
@@ -322,7 +323,7 @@ const Game = () => {
                                 value={selectedOption}
                                 onChange={e => setSelectedOption(e.target.value)}
                                 >
-                                <option disabled value="">Choose your option</option>
+                                <option disabled selected value="">Choose your option</option>
                                 {options.map((option, key) => (
                                     <option key={key} value={option}>
                                     {option}
