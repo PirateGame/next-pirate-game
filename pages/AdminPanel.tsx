@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 const AdminPanel = () => {
 
-    const [data, setData] = useState<any[]>()
+    const [tableData, setTableData] = useState<any[]>()
     const [games, setGames] = useState<any[]>()
     const [players, setPlayers] = useState<any[]>()
     const [timer, setTimer] = useState<any>()
@@ -30,17 +30,17 @@ const AdminPanel = () => {
                 });
             }
             else if (data && data.error == false) {
-                await setGames(data.games)
-                await getPlayers()
-                await generateData()
-                Router.reload()
-                return
+                setGames(data.games)
             }
             else {
                 console.log("error in AdminPanel.tsx getGames() failed")
             }
         })
     }
+
+    useEffect(() => {
+        getPlayers()
+    }, [games])
 
     const getPlayers = async() => {
         var res: any[] = []
@@ -66,8 +66,15 @@ const AdminPanel = () => {
         })
     }
 
-    const generateData = () => {
+    useEffect(() => {
+        generateData()
+    }, [players])
+
+    const generateData = async() => {
         if (games == undefined || players == undefined) {
+            console.log("game or players undefined")
+            console.log(games)
+            console.log(players)
             return
         }
         var res: any[] = []
@@ -94,7 +101,9 @@ const AdminPanel = () => {
                 id: gameName
                 })
         }
-        setData(res)
+        console.log(res)
+        setTableData(res)
+        console.log("got data")
     }
 
     const deleteGame = async(gameName: string) => {
@@ -180,7 +189,7 @@ const AdminPanel = () => {
                 <div className="rules-box">
                     <h1 className="title1">Admin Panel</h1>
                     <Griddle
-                        data={data}
+                        data={tableData}
                         styleConfig={styleConfig}
                         plugins={[plugins.LocalPlugin]}
                         sortProperties={sortProperties}
