@@ -107,33 +107,42 @@ const AdminPanel = () => {
     }
 
     const deleteGame = async(gameName: string) => {
-        var res: any[] = []
-        const body = {gameName}
-        await fetch('/api/deleteGame', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(body),
-        })
-        .then((r) => r.json())
-        .then(async (data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.error == false) {
-                return
-            }
-            else {
-                console.log("error in AdminPanel.tsx getPlayers() failed")
-            }
-        })
-        getGames()
+        let pass = prompt('Enter Password')
+        if (pass == process.env.PASSWORD as string) {
+            const body = {gameName}
+            await fetch('/api/deleteGame', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(body),
+            })
+            .then((r) => r.json())
+            .then(async (data) => {
+                if (data && data.error == true) {
+                    console.log(data.error)
+                    toast(data.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else if (data && data.error == false) {
+                    return
+                }
+                else {
+                    console.log("error in AdminPanel.tsx getPlayers() failed")
+                }
+            })
+            getGames()
+        } else {
+            alert("Password wrong")
+        }
     }
 
     const modifyGame = (gameName: string) => {
-        console.log(gameName)
+        let pass = prompt('Enter Password')
+        if (pass == process.env.PASSWORD as string) {
+            console.log(gameName)
+        } else {
+            alert("Password wrong")
+        }
     }
 
     useEffect(() => {

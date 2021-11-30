@@ -9,7 +9,6 @@ import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/gridstack-extra.min.css';
 import { GridStack } from 'gridstack';
 import 'gridstack/dist/h5/gridstack-dd-native';
-import { setHttpAgentOptions } from 'next/dist/server/config';
 
 
 const Game = () => {
