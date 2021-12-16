@@ -68,7 +68,7 @@ const DesignBoard = () => {
             return
         }
 
-        connection.emit("submitBoard", playerName, gameName, board, (response: any) => {
+        connection.emit("submitBoard", gameName, playerName, board, (response: any) => {
             if (response.status != "ok") {
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT

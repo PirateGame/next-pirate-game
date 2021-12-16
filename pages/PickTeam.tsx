@@ -98,7 +98,7 @@ const PickTeam = () => {
             return
         }
 
-        connection.emit("setTeam", playerName, gameName, ship, captain, (response: any) => {
+        connection.emit("setTeam", gameName, playerName, ship, captain, (response: any) => {
             if (response.status != "ok") {
                 toast(response.status, {
                     position: toast.POSITION.BOTTOM_RIGHT

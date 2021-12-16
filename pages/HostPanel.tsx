@@ -15,6 +15,7 @@ const HostPanel = () => {
     const gameName = cookie.get("gameName")
     const playerName = cookie.get("playerName")
     const token = cookie.get("token")
+    const [connection, setConnection] = useState<Socket>()
     
 
     const startGame = () => { 
@@ -48,11 +49,11 @@ const HostPanel = () => {
     }
 
     const getPlayers = async () => {
-        var _socket = io(process.env.SOCKET_URL as string)
-        if (!_socket) return
-        _socket.emit("getPlayerList", playerName, gameName, (response: any) => {
-            setClientList(response.playerList)
-        });
+        if (connection) {
+            connection.emit("getPlayerList", gameName, playerName, (response: any) => {
+                setClientList(response.playerList)
+            });
+        }
     }
 
     const kickPlayer = async (playertoKick: string) =>{
@@ -94,21 +95,21 @@ const HostPanel = () => {
     }
     
     const addAI = async () =>{
-        var _socket = io(process.env.SOCKET_URL as string)
-        if (!_socket) return
-        _socket.emit("addAI", token, (response: any) => {
-            if (response.status != "ok") {
-                toast(response.status, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            } 
-        });
+        if (connection) {
+            connection.emit("addAI", gameName, playerName, token, (response: any) => {
+                if (response.status != "ok") {
+                    toast(response.status, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+            })
+        }
     }
 
     useEffect(() => {
         var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
-        console.log(_socket)
+        setConnection(_socket)
 
         if (!_socket) {
             toast("not connected to server", {
@@ -118,7 +119,7 @@ const HostPanel = () => {
         }
         getPlayers()
 
-        _socket.emit("join", playerName, gameName, token, (response: any) => {
+        _socket.emit("join", gameName, playerName, token, (response: any) => {
             if (response.status == false) {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT

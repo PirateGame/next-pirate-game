@@ -73,7 +73,7 @@ const WaitingRoom = () => {
     const startGame = async () => {
         var _socket = io(process.env.SOCKET_URL as string)
         if (!_socket) return
-        _socket.emit("startGame", playerName, gameName, token)
+        _socket.emit("startGame", gameName, playerName, token)
         router.push('/Game')
     }
 
@@ -91,7 +91,7 @@ const WaitingRoom = () => {
             return
         }
 
-        _socket.emit("join", playerName, gameName, token, (response: any) => {
+        _socket.emit("join", gameName, playerName, token, (response: any) => {
             if (response.status == false) {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT

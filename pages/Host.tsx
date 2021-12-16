@@ -57,7 +57,7 @@ const Host = () => {
                             toast("Registering with server", {
                                 position: toast.POSITION.BOTTOM_RIGHT
                             });
-                            socket.emit("Register", playerName, gameName, (response: any) => {
+                            socket.emit("Register", gameName, playerName, (response: any) => {
                                 cookie.set('token', response.token)
                             });
                             cookie.set('gameName', gameName)

@@ -205,7 +205,7 @@ const Game = () => {
         console.log(selectedOption)
         setQuestionBool(false)
         if (connection) {
-            connection.emit("questionResponse", playerName, gameName, selectedOption)
+            connection.emit("questionResponse", gameName, playerName, selectedOption)
         }
     }
 
@@ -238,7 +238,7 @@ const Game = () => {
             return
         }
 
-        _socket.emit("join", playerName, gameName, token, (response: any) => {
+        _socket.emit("join", gameName, playerName, token, (response: any) => {
             if (response.status == false) {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT
