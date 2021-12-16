@@ -56,10 +56,41 @@ const HostPanel = () => {
     }
 
     const kickPlayer = async (playertoKick: string) =>{
-        var token = cookie.get("token")
-        toast("kicking players not implemented yet.", {
-            position: toast.POSITION.BOTTOM_RIGHT
-        });
+        if (playertoKick == playerName) {
+            toast("You can't kick yourself", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            return
+        }
+        const body = {gameName, playerName: playertoKick}
+        await fetch('/api/deletePlayer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        })
+        .then((r) => r.json())
+        .then(async (data) => {
+            if (data && data.error == true) {
+                console.log(data.error)
+                toast(data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+            else if (data && data.error == false) {
+                toast("Player has been kicked", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                getPlayers()
+                return
+            }
+            else {
+                console.log("error in AdminPanel.tsx kickPlayer() failed")
+                toast("Something went wrong", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            }
+        })
+        
     }
     
     const addAI = async () =>{
