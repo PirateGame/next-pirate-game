@@ -101,6 +101,7 @@ const HostPanel = () => {
                     toast(response.status, {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });
+                    getPlayers()
                 }
             })
         }

@@ -48,6 +48,7 @@ async function joinGame(gameName: string, playerName: string, host: boolean) {
             ship: -1,
             captain: -1,
             host: host,
+            ai: false,
             token: "",
             game: {
                 connect: {name: gameName}
@@ -56,8 +57,6 @@ async function joinGame(gameName: string, playerName: string, host: boolean) {
         }
     })
     return result
-    
-    //this is where we need to start the kubernetes pod
 }
 
 const main =  async (req: NextApiRequest, res: NextApiResponse) => {

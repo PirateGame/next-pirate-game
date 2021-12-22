@@ -18,6 +18,7 @@ model player {
   ship     Int
   captain  Int
   host     Boolean
+  ai       Boolean
   token    String
   id       Int     @unique(map: "player.id_unique") @default(autoincrement())
   game     game    @relation(fields: [gameName], references: [name], onDelete: Cascade, map: "player_ibfk_1")
