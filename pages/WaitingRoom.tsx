@@ -114,7 +114,12 @@ const WaitingRoom = () => {
             <div className="bg-generic">
                 <h1 className="title1 invisible">-</h1>
                 <h1 className="title1">You&#39;re In!</h1>
-                <h2 className="title2">Please wait while the host starts the game.</h2>
+                {host ? (
+                        <h2 className="title2">Start the game when all players have joined.</h2>
+                    ):(
+                        <h2 className="title2">Please wait while the host starts the game.</h2>
+                    )}
+                
 
                 <div className="flex-vertical-box h-3/5">
                     <div className="flex-child h-1/4 text-center">
