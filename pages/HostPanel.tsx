@@ -16,36 +16,36 @@ const HostPanel = () => {
     const playerName = cookie.get("playerName")
     const token = cookie.get("token")
     const [connection, setConnection] = useState<Socket>()
-    
 
-    const startGame = () => { 
+
+    const startGame = () => {
         Router.push('/PickTeam')
     }
 
     const saveSettings = async () => {
-        const body = {gameName, decisionTime, randomiseOnly, playerLimit}
+        const body = { gameName, decisionTime, randomiseOnly, playerLimit }
         await fetch('/api/updateGame', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
         })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.error == false) {
-                toast("game settings have been updated", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else {
-                console.log("error in Hostpanel.tsx saveSettings() failed")
-            }
-        })
+            .then((r) => r.json())
+            .then((data) => {
+                if (data && data.error == true) {
+                    console.log(data.error)
+                    toast(data.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else if (data && data.error == false) {
+                    toast("game settings have been updated", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else {
+                    console.log("error in Hostpanel.tsx saveSettings() failed")
+                }
+            })
     }
 
     const getPlayers = async () => {
@@ -56,45 +56,45 @@ const HostPanel = () => {
         }
     }
 
-    const kickPlayer = async (playertoKick: string) =>{
+    const kickPlayer = async (playertoKick: string) => {
         if (playertoKick == playerName) {
             toast("You can't kick yourself", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
             return
         }
-        const body = {gameName, playerName: playertoKick}
+        const body = { gameName, playerName: playertoKick }
         await fetch('/api/deletePlayer', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
         })
-        .then((r) => r.json())
-        .then(async (data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.error == false) {
-                toast("Player has been kicked", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-                getPlayers()
-                return
-            }
-            else {
-                console.log("error in AdminPanel.tsx kickPlayer() failed")
-                toast("Something went wrong", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-        })
-        
+            .then((r) => r.json())
+            .then(async (data) => {
+                if (data && data.error == true) {
+                    console.log(data.error)
+                    toast(data.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else if (data && data.error == false) {
+                    toast("Player has been kicked", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    getPlayers()
+                    return
+                }
+                else {
+                    console.log("error in AdminPanel.tsx kickPlayer() failed")
+                    toast("Something went wrong", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+            })
+
     }
-    
-    const addAI = async () =>{
+
+    const addAI = async () => {
         if (connection) {
             connection.emit("addAI", gameName, playerName, token, (response: any) => {
                 if (response.status != "ok") {
@@ -125,7 +125,7 @@ const HostPanel = () => {
                 toast("couldn't join server room.", {
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-            } 
+            }
         })
 
         _socket.on("playerListUpdated", () => {
@@ -167,7 +167,7 @@ const HostPanel = () => {
                                     />
                                 </div>
                             </div>
-                            <br/>
+                            <br />
                             <div className="flex-child">
                                 <div className="flex-container">
                                     <div className="flex-child">
@@ -206,10 +206,10 @@ const HostPanel = () => {
                     <div className="config-box flex-child m-4 min-h-5/6">
                         <h1 className="title2">Players</h1>
                         <ul>
-                            {clientList.map(client=><li className="title3 cursor-pointer hover:strikeout" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
+                            {clientList.map(client => <li className="title3 cursor-pointer hover:strikeout" key={client} onClick={() => kickPlayer(client)}>{client}</li>)}
                         </ul>
-                        
-                        
+
+
                     </div>
                 </div>
             </div>
