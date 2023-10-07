@@ -1,7 +1,7 @@
 FROM node:16-alpine
 
 
-ENV DATABASE_HOST 127.0.0.1:3306
+ENV DATABASE_HOST mysql
 ENV DATABASE_USER example
 ENV DATABASE_PASSWORD example
 ENV SOCKET_URL http://localhost:1234
@@ -16,10 +16,13 @@ WORKDIR /usr/src/app
 
 # Installing dependencies
 COPY package*.json /usr/src/app/
+RUN apk add --update --no-cache openssl1.1-compat
 RUN npm install
 
 # Copying source files
 COPY . /usr/src/app
+COPY prisma ./prisma/
+RUN npx prisma generate
 
 # Building app
 RUN npm run build
