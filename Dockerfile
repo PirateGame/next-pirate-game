@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 ENV DATABASE_URL mysql://example:example@127.0.0.1:3306/pg
 ENV SOCKET_URL http://localhost:1234
