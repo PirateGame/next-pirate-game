@@ -1,0 +1,19 @@
+diff --git a/node_modules/gridstack/dist/h5/dd-utils.js b/node_modules/gridstack/dist/h5/dd-utils.js
+index a30a70d..4d3e206 100644
+--- a/node_modules/gridstack/dist/h5/dd-utils.js
++++ b/node_modules/gridstack/dist/h5/dd-utils.js
+@@ -70,13 +70,6 @@ DDUtils.isEventSupportPassiveOption = ((() => {
+     let passiveTest = () => {
+         // do nothing
+     };
+-    document.addEventListener('test', passiveTest, {
+-        get passive() {
+-            supportsPassive = true;
+-            return true;
+-        }
+-    });
+-    document.removeEventListener('test', passiveTest);
+     return supportsPassive;
+ })());
+ //# sourceMappingURL=dd-utils.js.map
+\ No newline at end of file

@@ -164,7 +164,6 @@ const DesignBoard = () => {
 
     return (
         <Layout>
-            <DynamicComponentWithNoSSR />
             <Script src="node_modules/gridstack/dist/gridstack-h5.js"></Script>
             <div className="bg-gamepage">
                 <h2 className="title2">Drag and drop the tiles to create your board.</h2>
