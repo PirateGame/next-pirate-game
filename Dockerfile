@@ -1,6 +1,9 @@
 FROM node:16-alpine
 
-ENV DATABASE_URL mysql://example:example@127.0.0.1:3306/pg
+
+ENV DATABASE_HOST 127.0.0.1:3306
+ENV DATABASE_USER example
+ENV DATABASE_PASSWORD example
 ENV SOCKET_URL http://localhost:1234
 ENV PASSWORD example
 ENV PORT 1234
