@@ -1,7 +1,7 @@
 import Router from 'next/router'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -13,64 +13,64 @@ const AdminPanel = () => {
     const [players, setPlayers] = useState<any[]>()
     const [timer, setTimer] = useState<any>()
 
-    const getGames = async() => {
+    const getGames = async () => {
         console.log("getting new data")
         setGames([])
         var res: any[] = []
         await fetch('/api/readGames', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         })
-        .then((r) => r.json())
-        .then(async (data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.error == false) {
-                setGames(data.games)
-            }
-            else {
-                console.log("error in AdminPanel.tsx getGames() failed")
-            }
-        })
+            .then((r) => r.json())
+            .then(async (data) => {
+                if (data && data.error == true) {
+                    console.log(data.error)
+                    toast(data.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else if (data && data.error == false) {
+                    setGames(data.games)
+                }
+                else {
+                    console.log("error in AdminPanel.tsx getGames() failed")
+                }
+            })
     }
 
     useEffect(() => {
         getPlayers()
     }, [games])
 
-    const getPlayers = async() => {
+    const getPlayers = async () => {
         var res: any[] = []
         await fetch('/api/readPlayers', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         })
-        .then((r) => r.json())
-        .then(async (data) => {
-            if (data && data.error == true) {
-                console.log(data.error)
-                toast(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
-            else if (data && data.error == false) {
-                await setPlayers(data.players)
-                return
-            }
-            else {
-                console.log("error in AdminPanel.tsx getPlayers() failed")
-            }
-        })
+            .then((r) => r.json())
+            .then(async (data) => {
+                if (data && data.error == true) {
+                    console.log(data.error)
+                    toast(data.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
+                else if (data && data.error == false) {
+                    await setPlayers(data.players)
+                    return
+                }
+                else {
+                    console.log("error in AdminPanel.tsx getPlayers() failed")
+                }
+            })
     }
 
     useEffect(() => {
         generateData()
     }, [players])
 
-    const generateData = async() => {
+    const generateData = async () => {
         if (games == undefined || players == undefined) {
             console.log("game or players undefined")
             console.log(games)
@@ -79,7 +79,7 @@ const AdminPanel = () => {
         }
         var res: any[] = []
         var i: any
-        for(i in games) {
+        for (i in games) {
             console.log(games[i])
             //var numPlayers = Object.keys(games[i].scoreHistory[1]).length
             var numPlayers = "?"
@@ -99,37 +99,37 @@ const AdminPanel = () => {
                 turn: turn + "/" + gridx * gridy,
                 state: state,
                 id: gameName
-                })
+            })
         }
         console.log(res)
         setTableData(res)
         console.log("got data")
     }
 
-    const deleteGame = async(gameName: string) => {
+    const deleteGame = async (gameName: string) => {
         let pass = prompt('Enter Password')
-        if (pass == process.env.PASSWORD as string) {
-            const body = {gameName}
+        if (pass == process.env.ADMIN_PASSWORD as string) {
+            const body = { gameName }
             await fetch('/api/deleteGame', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
             })
-            .then((r) => r.json())
-            .then(async (data) => {
-                if (data && data.error == true) {
-                    console.log(data.error)
-                    toast(data.message, {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    });
-                }
-                else if (data && data.error == false) {
-                    return
-                }
-                else {
-                    console.log("error in AdminPanel.tsx getPlayers() failed")
-                }
-            })
+                .then((r) => r.json())
+                .then(async (data) => {
+                    if (data && data.error == true) {
+                        console.log(data.error)
+                        toast(data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        });
+                    }
+                    else if (data && data.error == false) {
+                        return
+                    }
+                    else {
+                        console.log("error in AdminPanel.tsx getPlayers() failed")
+                    }
+                })
             getGames()
         } else {
             alert("Password wrong")
@@ -138,7 +138,7 @@ const AdminPanel = () => {
 
     const modifyGame = (gameName: string) => {
         let pass = prompt('Enter Password')
-        if (pass == process.env.PASSWORD as string) {
+        if (pass == process.env.ADMIN_PASSWORD as string) {
             console.log(gameName)
         } else {
             alert("Password wrong")
@@ -159,11 +159,11 @@ const AdminPanel = () => {
             },
         },
         classNames: {
-          Row: 'row-class',
-          Table: 'w-full'
+            Row: 'row-class',
+            Table: 'w-full'
         },
         styles: {
-          Filter: { fontSize: 18 }
+            Filter: { fontSize: 18 }
         }
     }
 
@@ -171,30 +171,30 @@ const AdminPanel = () => {
         { id: 'state', sortAscending: true }
     ];
 
-    const Actions = (value:any) => {
+    const Actions = (value: any) => {
         return (
             <div>
-            <input
-                className="p-1 m-1"
-                type="button"
-                value="edit"
-                onClick={e => modifyGame(value.value)}
-            />
-            <input
-                className="p-1 m-1"
-                type="button"
-                value="remove"
-                onClick={e => deleteGame(value.value)}
-            />
-        </div>
+                <input
+                    className="p-1 m-1"
+                    type="button"
+                    value="edit"
+                    onClick={e => modifyGame(value.value)}
+                />
+                <input
+                    className="p-1 m-1"
+                    type="button"
+                    value="remove"
+                    onClick={e => deleteGame(value.value)}
+                />
+            </div>
         )
-        
-        }
+
+    }
 
     return (
         <Layout>
             <div className="bg-generic">
-            <br /><br /><br /><br />
+                <br /><br /><br /><br />
                 <div className="rules-box">
                     <h1 className="title1">Admin Panel</h1>
                     <Griddle
@@ -202,13 +202,13 @@ const AdminPanel = () => {
                         styleConfig={styleConfig}
                         plugins={[plugins.LocalPlugin]}
                         sortProperties={sortProperties}
-                    > 
+                    >
                         <RowDefinition>
-                            <ColumnDefinition id="gameName"  title="Game Name"/>
-                            <ColumnDefinition id="numPlayers"  title="No. Players"/>
-                            <ColumnDefinition id="turn"  title="Turn"/>
-                            <ColumnDefinition id="grid"  title="Grid Size"/>
-                            <ColumnDefinition id="state"  title="Game State"/>
+                            <ColumnDefinition id="gameName" title="Game Name" />
+                            <ColumnDefinition id="numPlayers" title="No. Players" />
+                            <ColumnDefinition id="turn" title="Turn" />
+                            <ColumnDefinition id="grid" title="Grid Size" />
+                            <ColumnDefinition id="state" title="Game State" />
                             <ColumnDefinition id="id" title="Actions" customComponent={Actions} />
                         </RowDefinition>
                     </Griddle>
