@@ -15,7 +15,7 @@ export default function Layout({
 }) {
     return (
         <div>
-            <Script defer data-domain="pirategame.alexpegg.uk" src="http://analytics.alexpegg.uk/js/script.js"></Script>
+            <Script defer data-domain="pirategame.alexpegg.uk" src="https://analytics.alexpegg.uk/js/script.js"></Script>
 
             <Head>
                 <link rel="shortcut icon" href="/pirate.ico" />
